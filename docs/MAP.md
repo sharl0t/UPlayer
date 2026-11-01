@@ -1,0 +1,24 @@
+# Карта файлов
+
+- `README.md`: решения пользователя, устройство сайта, сборка
+- `TASKS.md`: задачи и отметки о выполнении
+- `CLAUDE.md`: правила работы для Claude
+- `build.gradle.kts`, `settings.gradle.kts`, `gradle.properties`: настройки Gradle проекта
+- `app/build.gradle.kts`: модуль приложения, зависимости, запуск LiveSiteTest
+- `app/proguard-rules.pro`: правила R8
+- `app/src/main/AndroidManifest.xml`: активности, LEANBACK_LAUNCHER, баннер
+- `app/src/main/java/ru/sharl0t/utvplayer/App.kt`: запуск Net, Coil через общий OkHttp
+- `app/src/main/java/ru/sharl0t/utvplayer/data/Net.kt`: общий OkHttp: свои корни сертификатов, cookie в памяти, User-Agent
+- `app/src/main/java/ru/sharl0t/utvplayer/data/UtvApi.kt`: разбор сайта: передачи, сезоны и серии, адрес master.m3u8
+- `app/src/main/java/ru/sharl0t/utvplayer/data/Models.kt`: Show, Season, Episode, ShowDetails
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/LoadActivity.kt`: база экранов: загрузка, крутилка, ошибка с «Повторить»
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/MessageFragment.kt`: сообщение на весь экран с кнопкой «Повторить» или «Назад»
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/CardPresenter.kt`: карточки передач и серий с картинками (Coil)
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/MainActivity.kt`: каталог, сетка передач
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/ShowActivity.kt`: передача: сезоны слева, серии рядами, «серий нет»
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/PlayerActivity.kt`: плеер (пока заглушка, задача 4)
+- `app/src/main/res/layout/activity_content.xml`: контейнер фрагмента и крутилка
+- `app/src/main/res/raw/extra_roots.pem`: корни GlobalSign R46, R3, ISRG X1, X2
+- `app/src/main/res/values/`: строки, цвета, тема Leanback
+- `app/src/main/res/drawable*/`, `mipmap-xhdpi/`: баннер, иконка, значок качества
+- `app/src/test/java/ru/sharl0t/utvplayer/data/LiveSiteTest.kt`: проверка разбора на живом сайте (UTV_LIVE=1)
