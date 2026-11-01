@@ -58,3 +58,28 @@ export JAVA_HOME=~/.local/opt/jdk-17.0.21+9 ANDROID_HOME=~/.local/opt/android-sd
 ./gradlew assembleRelease    # app/build/outputs/apk/release/app-release.apk (R8, 1,5 МБ, подписан отладочным ключом)
 UTV_LIVE=1 ./gradlew testDebugUnitTest   # разбор живого сайта (LiveSiteTest), вывод в app/build/test-results
 ```
+
+## Установка на приставку
+
+Отладку по сети на приставке включает пользователь (в настройках разработчика) и выключает после установки.
+
+```
+ADB=~/.local/opt/android-sdk/platform-tools/adb
+$ADB connect 192.168.31.185            # Rombica Go
+$ADB install -r app/build/outputs/apk/release/app-release.apk
+$ADB disconnect
+```
+
+- Релиз весит 1,5 МБ и ставится по Wi-Fi. Отладочная сборка (7,5 МБ) по Wi-Fi передаётся плохо: её лучше положить
+  на флешку и установить из `adb shell`: `cat /storage/<флешка>/app-debug.apk | pm install -S <размер в байтах>`.
+- Релиз подписан отладочным ключом этого компьютера. Если приложение ставили сборкой с другого компьютера,
+  `install -r` откажет (`INSTALL_FAILED_UPDATE_INCOMPATIBLE`): сначала `$ADB uninstall ru.sharl0t.utvplayer`.
+  Удалять не страшно: приложение ничего не хранит.
+- После установки приложение «UTvPlayer» появляется в ряду приложений лаунчера Android TV (баннер «Ю»).
+
+## Управление в плеере
+
+- OK: пауза и продолжение, показать панель.
+- Кнопки ⏪ и ⏩ на панели: назад на 10 с и вперёд на 30 с. На полосе прокрутки влево и вправо: шаг 1 %.
+- Кнопка «Качество» на панели: Авто или конкретная высота (1080p … 240p).
+- «Назад»: спрятать панель, второе нажатие: выход к списку серий. В конце серии плеер закрывается сам.
