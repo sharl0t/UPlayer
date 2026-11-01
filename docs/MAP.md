@@ -1,10 +1,10 @@
 # Карта файлов
 
-- `README.md`: решения пользователя, устройство сайта, сборка
+- `README.md`: для всех: установка и управление; для разработчиков: решения, устройство сайта, сборка
 - `TASKS.md`: задачи и отметки о выполнении
 - `CLAUDE.md`: правила работы для Claude
 - `build.gradle.kts`, `settings.gradle.kts`, `gradle.properties`: настройки Gradle проекта
-- `app/build.gradle.kts`: модуль приложения, зависимости, запуск LiveSiteTest
+- `app/build.gradle.kts`: модуль приложения, зависимости, подпись релиза из `keystore.properties`, запуск LiveSiteTest
 - `app/proguard-rules.pro`: правила R8
 - `app/src/main/AndroidManifest.xml`: активности, LEANBACK_LAUNCHER, баннер
 - `app/src/main/java/ru/sharl0t/utvplayer/App.kt`: запуск Net, Coil через общий OkHttp
