@@ -4,3 +4,6 @@ local.properties
 .idea/
 *.iml
 .kotlin/
+
+# Корни сертификатов нужны для сборки, а глобальный gitignore скрывает *.pem
+!app/src/main/res/raw/extra_roots.pem

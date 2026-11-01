@@ -6,6 +6,7 @@ import okhttp3.CookieJar
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import ru.sharl0t.utvplayer.R
+import java.io.InputStream
 import java.security.KeyStore
 import java.security.cert.CertificateException
 import java.security.cert.CertificateFactory
@@ -23,8 +24,11 @@ object Net {
     lateinit var client: OkHttpClient
         private set
 
-    fun init(context: Context) {
-        val trustManager = trustManager(context)
+    fun init(context: Context) = context.resources.openRawResource(R.raw.extra_roots).use { init(it) }
+
+    /** [extraRoots]: PEM с дополнительными корнями; отдельно от Context, чтобы проверять на JVM. */
+    fun init(extraRoots: InputStream) {
+        val trustManager = trustManager(extraRoots)
         val sslContext = SSLContext.getInstance("TLS").apply { init(null, arrayOf(trustManager), null) }
         client = OkHttpClient.Builder()
             .sslSocketFactory(sslContext.socketFactory, trustManager)
@@ -41,13 +45,11 @@ object Net {
      * Сайт подписан GlobalSign Root R46, видео-CDN ведёт к ISRG Root X2. Этих корней нет в старых Android,
      * поэтому к системным сертификатам добавляем свои из res/raw/extra_roots.pem.
      */
-    private fun trustManager(context: Context): X509TrustManager {
+    private fun trustManager(extraRoots: InputStream): X509TrustManager {
         val system = defaultTrustManager(null)
         val keyStore = KeyStore.getInstance(KeyStore.getDefaultType()).apply { load(null, null) }
-        context.resources.openRawResource(R.raw.extra_roots).use { input ->
-            CertificateFactory.getInstance("X.509").generateCertificates(input).forEachIndexed { i, cert ->
-                keyStore.setCertificateEntry("extra$i", cert)
-            }
+        CertificateFactory.getInstance("X.509").generateCertificates(extraRoots).forEachIndexed { i, cert ->
+            keyStore.setCertificateEntry("extra$i", cert)
         }
         val extra = defaultTrustManager(keyStore)
         return object : X509TrustManager {

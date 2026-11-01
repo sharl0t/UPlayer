@@ -47,4 +47,14 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("org.jsoup:jsoup:1.18.1")
     implementation("io.coil-kt:coil:2.7.0")
+
+    testImplementation("junit:junit:4.13.2")
+    // В android.jar org.json только заглушки
+    testImplementation("org.json:json:20240303")
+}
+
+// Проверка разбора на живом сайте: UTV_LIVE=1 ./gradlew testDebugUnitTest
+tasks.withType<Test>().configureEach {
+    environment("UTV_LIVE", System.getenv("UTV_LIVE") ?: "")
+    testLogging { showStandardStreams = true }
 }

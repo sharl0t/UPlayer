@@ -34,11 +34,14 @@
 - `/shows/`: в HTML первые 30 передач (`a.projects__item`, название в `.projects__name`, картинка в
   `picture source[srcset]`). Остальные отдаёт `POST /projects/loading/` с полями `tab=all&page=N&sort=new&slug=shows`,
   заголовками `X-CSRF-TOKEN` (из `<meta name="csrf-token">`) и `X-Requested-With: XMLHttpRequest` и cookie
-  со страницы `/shows/`. Ответ: JSON `{html, btnNextLoad, btnNumberPage, countProjectsToFilter}`, всего 80 передач.
+  со страницы `/shows/`. Ответ: JSON `{html, btnNextLoad, btnNumberPage, countProjectsToFilter}`. На 2026-11-02 всего
+  78 передач, 1240 серий; у 31 передачи (старые: «Званый ужин», «Маша и Медведь» и т. п.) на сайте только описание,
+  серий нет.
 - `/shows/<slug>/`: сезоны лежат в HTML целиком, блоками `div.defaultTabs__item[data-season="1 сезон"][data-total=N]`.
   Серия: `a.swiperGroup__slide` (ссылка абсолютная), `.swiperGroup__name` («1 сезон 3 серия»), `img[alt]`
   («Мама в 16. 3 серия. Анна, Ростов-на-Дону»), `.timeVideo` («73 мин»). Проверено на трёх передачах:
-  `data-total` совпадает с числом серий в HTML.
+  `data-total` совпадает с числом серий в HTML. Названия сезонов бывают не только «N сезон»: «эксклюзив сезон»,
+  «Интервью сезон».
 
 ## Сертификаты
 
@@ -52,4 +55,5 @@
 ```
 export JAVA_HOME=~/.local/opt/jdk-17.0.21+9 ANDROID_HOME=~/.local/opt/android-sdk
 ./gradlew assembleDebug      # app/build/outputs/apk/debug/app-debug.apk
+UTV_LIVE=1 ./gradlew testDebugUnitTest   # разбор живого сайта (LiveSiteTest), вывод в app/build/test-results
 ```
