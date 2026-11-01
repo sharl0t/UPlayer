@@ -55,5 +55,6 @@
 ```
 export JAVA_HOME=~/.local/opt/jdk-17.0.21+9 ANDROID_HOME=~/.local/opt/android-sdk
 ./gradlew assembleDebug      # app/build/outputs/apk/debug/app-debug.apk
+./gradlew assembleRelease    # app/build/outputs/apk/release/app-release.apk (R8, 1,5 МБ, подписан отладочным ключом)
 UTV_LIVE=1 ./gradlew testDebugUnitTest   # разбор живого сайта (LiveSiteTest), вывод в app/build/test-results
 ```
