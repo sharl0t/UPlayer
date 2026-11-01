@@ -4,4 +4,9 @@
         <item name="android:windowBackground">@color/brand</item>
         <item name="android:colorAccent">@color/accent</item>
     </style>
+
+    <!-- Плеер: чёрный фон по краям видео -->
+    <style name="PlayerTheme" parent="AppTheme">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
 </resources>

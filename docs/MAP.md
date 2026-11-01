@@ -16,9 +16,10 @@
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/CardPresenter.kt`: карточки передач и серий с картинками (Coil)
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/MainActivity.kt`: каталог, сетка передач
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/ShowActivity.kt`: передача: сезоны слева, серии рядами, «серий нет»
-- `app/src/main/java/ru/sharl0t/utvplayer/ui/PlayerActivity.kt`: плеер (пока заглушка, задача 4)
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/PlayerActivity.kt`: плеер: загрузка адреса master.m3u8, затем PlayerFragment
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/PlayerFragment.kt`: ExoPlayer в Leanback: пауза, перемотка, «Качество», ошибка, выход в конце, экран не гаснет
 - `app/src/main/res/layout/activity_content.xml`: контейнер фрагмента и крутилка
 - `app/src/main/res/raw/extra_roots.pem`: корни GlobalSign R46, R3, ISRG X1, X2
-- `app/src/main/res/values/`: строки, цвета, тема Leanback
+- `app/src/main/res/values/`: строки, цвета, тема Leanback и чёрная тема плеера
 - `app/src/main/res/drawable*/`, `mipmap-xhdpi/`: баннер, иконка, значок качества
 - `app/src/test/java/ru/sharl0t/utvplayer/data/LiveSiteTest.kt`: проверка разбора на живом сайте (UTV_LIVE=1)

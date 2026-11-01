@@ -35,6 +35,7 @@
             android:name=".ui.PlayerActivity"
             android:configChanges="keyboard|keyboardHidden|navigation|screenSize|screenLayout|smallestScreenSize"
             android:exported="false"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@style/PlayerTheme" />
     </application>
 </manifest>
