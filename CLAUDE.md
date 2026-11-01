@@ -1,4 +1,4 @@
-# CLAUDE.md: UTvPlayer
+# CLAUDE.md: UPlayer
 
 ## Порядок работы с файлами (экономия токенов)
 
@@ -63,7 +63,7 @@
 
 ## Git
 
-- Репозиторий: GitHub `sharl0t/UTvPlayer`, приватный.
+- Репозиторий: GitHub `sharl0t/UPlayer` (до 2026-11-02 назывался UTvPlayer), приватный.
 - Remote `origin` по SSH.
 - Пушить после каждой задачи.
 

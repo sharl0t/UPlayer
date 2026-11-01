@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "UTvPlayer"
+rootProject.name = "UPlayer"
 include(":app")

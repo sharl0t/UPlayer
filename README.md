@@ -1,15 +1,15 @@
 <p align="center">
-  <img src="app/src/main/res/drawable-xhdpi/banner.png" width="320" alt="UTvPlayer">
+  <img src="docs/logo.jpg" width="560" alt="UPlayer">
 </p>
 
-<h1 align="center">UTvPlayer</h1>
+<h1 align="center">UPlayer</h1>
 
 <p align="center">
   Передачи телеканала «Ю» на Android TV: каталог и нормальный плеер вместо браузера.
 </p>
 
 <p align="center">
-  <a href="https://github.com/sharl0t/UTvPlayer/releases/latest"><img alt="Скачать" src="https://img.shields.io/github/v/release/sharl0t/UTvPlayer?label=%D1%81%D0%BA%D0%B0%D1%87%D0%B0%D1%82%D1%8C&color=f5c518"></a>
+  <a href="https://github.com/sharl0t/UPlayer/releases/latest"><img alt="Скачать" src="https://img.shields.io/github/v/release/sharl0t/UPlayer?label=%D1%81%D0%BA%D0%B0%D1%87%D0%B0%D1%82%D1%8C&color=4b4f57"></a>
   <img alt="Android TV 6.0+" src="https://img.shields.io/badge/Android%20TV-6.0%2B-3ddc84">
   <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-Leanback-7f52ff">
   <img alt="Размер" src="https://img.shields.io/badge/APK-1%2C5%20%D0%9C%D0%91-lightgrey">
@@ -33,7 +33,7 @@
 **Нужно:** приставка или телевизор на Android TV 6.0 и новее, интернет.
 Подходит любой процессор (ARM, ARM64, x86).
 
-Скачайте `UTvPlayer.apk` со страницы [Releases](https://github.com/sharl0t/UTvPlayer/releases/latest)
+Скачайте `UPlayer.apk` со страницы [Releases](https://github.com/sharl0t/UPlayer/releases/latest)
 и установите одним из способов.
 
 ### Способ 1. Прямо на приставке, через Downloader
@@ -44,13 +44,13 @@
    общий переключатель.
 3. В Downloader введите адрес:
    ```
-   https://github.com/sharl0t/UTvPlayer/releases/latest/download/UTvPlayer.apk
+   https://github.com/sharl0t/UPlayer/releases/latest/download/UPlayer.apk
    ```
 4. Нажмите «Установить». Приложение появится в ряду приложений на главном экране.
 
 ### Способ 2. С флешки
 
-1. Скопируйте `UTvPlayer.apk` на флешку и вставьте её в приставку.
+1. Скопируйте `UPlayer.apk` на флешку и вставьте её в приставку.
 2. Откройте файл любым файловым менеджером (например, X-plore или «Файлы»), разрешите установку
    из неизвестных источников, если система спросит.
 
@@ -60,7 +60,7 @@
 
 ```
 adb connect <IP приставки>
-adb install -r UTvPlayer.apk
+adb install -r UPlayer.apk
 ```
 
 После установки отладку по сети лучше выключить.
@@ -87,7 +87,7 @@ adb install -r UTvPlayer.apk
 - **«Приложение не установлено»** при обновлении: удалите старую версию и поставьте заново. Удалять не страшно,
   приложение ничего не хранит.
 - **Ошибка загрузки каталога**: проверьте интернет и нажмите «Повторить». Если не помогло, возможно, сайт u-tv.ru
-  поменял разметку. Напишите в [Issues](https://github.com/sharl0t/UTvPlayer/issues): модель приставки,
+  поменял разметку. Напишите в [Issues](https://github.com/sharl0t/UPlayer/issues): модель приставки,
   версия Android, что именно на экране.
 - **Видео не идёт**: попробуйте выбрать качество пониже кнопкой «Качество».
 

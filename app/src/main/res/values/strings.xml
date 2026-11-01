@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">UTvPlayer</string>
+    <string name="app_name">UPlayer</string>
     <string name="catalog_title">Телеканал «Ю»</string>
     <string name="retry">Повторить</string>
     <string name="back">Назад</string>
