@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UTvPlayer</string>
+    <string name="catalog_title">Телеканал «Ю»</string>
+    <string name="retry">Повторить</string>
+    <string name="back">Назад</string>
+    <string name="no_episodes">У этой передачи на сайте нет серий</string>
+    <string name="load_error">Не удалось загрузить: %1$s</string>
+    <string name="play_error">Не удалось воспроизвести: %1$s</string>
+    <string name="quality">Качество</string>
+    <string name="quality_auto">Авто</string>
+</resources>
