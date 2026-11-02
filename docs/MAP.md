@@ -24,3 +24,4 @@
 - `app/src/main/res/drawable*/`, `mipmap-*/`: баннер 320x180, иконка «Ю» (из `ICO.jpg`), значок качества
 - `docs/logo.jpg`: логотип для README (уменьшенный `ICO.jpg`)
 - `app/src/test/java/ru/sharl0t/utvplayer/data/LiveSiteTest.kt`: проверка разбора на живом сайте (UTV_LIVE=1)
+- `tools/ping-stats.py`: сводка по ping.log статистики устройств; копия лежит на сервере regru в `/root/ping-stats.py`
