@@ -7,8 +7,9 @@
 - `app/build.gradle.kts`: модуль приложения, зависимости, подпись релиза из `keystore.properties`, запуск LiveSiteTest
 - `app/proguard-rules.pro`: правила R8
 - `app/src/main/AndroidManifest.xml`: активности, LEANBACK_LAUNCHER, баннер
-- `app/src/main/java/ru/sharl0t/utvplayer/App.kt`: запуск Net, Coil через общий OkHttp
+- `app/src/main/java/ru/sharl0t/utvplayer/App.kt`: запуск Net и Stats, Coil через общий OkHttp
 - `app/src/main/java/ru/sharl0t/utvplayer/data/Net.kt`: общий OkHttp: свои корни сертификатов, cookie в памяти, User-Agent
+- `app/src/main/java/ru/sharl0t/utvplayer/data/Stats.kt`: статистика устройств: UUID установки, раз в сутки фоновый GET /ping на irlme.online
 - `app/src/main/java/ru/sharl0t/utvplayer/data/UtvApi.kt`: разбор сайта: передачи, сезоны и серии, адрес master.m3u8
 - `app/src/main/java/ru/sharl0t/utvplayer/data/Models.kt`: Show, Season, Episode, ShowDetails
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/LoadActivity.kt`: база экранов: загрузка, крутилка, ошибка с «Повторить»
