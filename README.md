@@ -9,11 +9,8 @@
 </p>
 
 <p align="center">
-  Сайт приложения: <a href="https://irlme.online">irlme.online</a>
-</p>
-
-<p align="center">
   <a href="https://github.com/sharl0t/UPlayer/releases/latest"><img alt="Скачать" src="https://img.shields.io/github/v/release/sharl0t/UPlayer?label=%D1%81%D0%BA%D0%B0%D1%87%D0%B0%D1%82%D1%8C&color=4b4f57"></a>
+  <a href="https://irlme.online"><img alt="Сайт" src="https://img.shields.io/badge/%D1%81%D0%B0%D0%B9%D1%82-irlme.online-1f6feb"></a>
   <img alt="Android TV 6.0+" src="https://img.shields.io/badge/Android%20TV-6.0%2B-3ddc84">
   <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-Leanback-7f52ff">
   <img alt="Размер" src="https://img.shields.io/badge/APK-1%2C5%20%D0%9C%D0%91-lightgrey">
