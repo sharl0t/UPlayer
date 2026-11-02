@@ -8,7 +8,7 @@ import androidx.leanback.widget.GuidedAction
 import ru.sharl0t.utvplayer.R
 import ru.sharl0t.utvplayer.data.Stats
 
-/** Настройки: переключатель обезличенной статистики. */
+/** Настройки: переключатель обезличенной статистики, слева ссылки автора QR-кодами. */
 class SettingsActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +19,10 @@ class SettingsActivity : FragmentActivity() {
 }
 
 class SettingsFragment : GuidedStepSupportFragment() {
+    override fun onCreateGuidanceStylist() = object : GuidanceStylist() {
+        override fun onProvideLayoutId() = R.layout.settings_guidance
+    }
+
     override fun onCreateGuidance(savedInstanceState: Bundle?) = GuidanceStylist.Guidance(
         getString(R.string.settings), getString(R.string.settings_description), "", null
     )

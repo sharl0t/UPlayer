@@ -10,7 +10,9 @@
     <string name="quality">Качество</string>
     <string name="quality_auto">Авто</string>
     <string name="settings">Настройки</string>
-    <string name="settings_description">UPlayer ничего не хранит, кроме этих настроек</string>
+    <string name="settings_description">Сайт и Telegram автора: наведите камеру телефона на QR-код</string>
+    <string name="qr_site">QR-код сайта irlme.online</string>
+    <string name="qr_telegram">QR-код Telegram @IRLME</string>
     <string name="stats_share">Делиться обезличенными данными</string>
     <string name="stats_share_description">Раз в сутки: модель приставки, версия Android и UPlayer. Что смотрите, не отправляется</string>
 </resources>
