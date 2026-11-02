@@ -3,6 +3,13 @@
     <style name="AppTheme" parent="Theme.Leanback">
         <item name="android:windowBackground">@color/brand</item>
         <item name="android:colorAccent">@color/accent</item>
+        <item name="searchOrbViewStyle">@style/SettingsOrb</item>
+    </style>
+
+    <!-- Кнопка в заголовке каталога: поиска в приложении нет, на её месте вход в настройки -->
+    <style name="SettingsOrb" parent="Widget.Leanback.SearchOrbViewStyle">
+        <item name="searchOrbIcon">@drawable/ic_quality</item>
+        <item name="searchOrbColor">@color/accent</item>
     </style>
 
     <!-- Плеер: чёрный фон по краям видео -->

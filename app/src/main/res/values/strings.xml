@@ -9,4 +9,8 @@
     <string name="play_error">Не удалось воспроизвести: %1$s</string>
     <string name="quality">Качество</string>
     <string name="quality_auto">Авто</string>
+    <string name="settings">Настройки</string>
+    <string name="settings_description">UPlayer ничего не хранит, кроме этих настроек</string>
+    <string name="stats_share">Делиться обезличенными данными</string>
+    <string name="stats_share_description">Раз в сутки: модель приставки, версия Android и UPlayer. Что смотрите, не отправляется</string>
 </resources>

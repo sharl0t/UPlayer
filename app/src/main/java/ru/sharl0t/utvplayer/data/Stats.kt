@@ -15,10 +15,20 @@ object Stats {
     private const val PREFS = "stats"
     private const val KEY_ID = "id"
     private const val KEY_LAST = "last_ping"
+    private const val KEY_ENABLED = "enabled"
     private const val DAY_MS = 24L * 60 * 60 * 1000
 
+    /** Переключатель «Делиться обезличенными данными» в настройках, по умолчанию включён. */
+    fun isEnabled(context: Context) = prefs(context).getBoolean(KEY_ENABLED, true)
+
+    fun setEnabled(context: Context, enabled: Boolean) =
+        prefs(context).edit().putBoolean(KEY_ENABLED, enabled).apply()
+
+    private fun prefs(context: Context) = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+
     fun pingIfDue(context: Context) {
-        val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val prefs = prefs(context)
+        if (!prefs.getBoolean(KEY_ENABLED, true)) return
         val now = System.currentTimeMillis()
         val last = prefs.getLong(KEY_LAST, 0)
         if (now - last in 0 until DAY_MS) return

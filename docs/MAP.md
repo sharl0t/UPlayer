@@ -9,20 +9,21 @@
 - `app/src/main/AndroidManifest.xml`: активности, LEANBACK_LAUNCHER, баннер
 - `app/src/main/java/ru/sharl0t/utvplayer/App.kt`: запуск Net и Stats, Coil через общий OkHttp
 - `app/src/main/java/ru/sharl0t/utvplayer/data/Net.kt`: общий OkHttp: свои корни сертификатов, cookie в памяти, User-Agent
-- `app/src/main/java/ru/sharl0t/utvplayer/data/Stats.kt`: статистика устройств: UUID установки, раз в сутки фоновый GET /ping на irlme.online
+- `app/src/main/java/ru/sharl0t/utvplayer/data/Stats.kt`: статистика устройств: UUID установки, раз в сутки фоновый GET /ping на irlme.online, флаг «Делиться обезличенными данными»
 - `app/src/main/java/ru/sharl0t/utvplayer/data/UtvApi.kt`: разбор сайта: передачи, сезоны и серии, адрес master.m3u8
 - `app/src/main/java/ru/sharl0t/utvplayer/data/Models.kt`: Show, Season, Episode, ShowDetails
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/LoadActivity.kt`: база экранов: загрузка, крутилка, ошибка с «Повторить»
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/MessageFragment.kt`: сообщение на весь экран с кнопкой «Повторить» или «Назад»
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/CardPresenter.kt`: карточки передач и серий с картинками (Coil)
-- `app/src/main/java/ru/sharl0t/utvplayer/ui/MainActivity.kt`: каталог, сетка передач
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/MainActivity.kt`: каталог, сетка передач, в заголовке кнопка настроек
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/ShowActivity.kt`: передача: сезоны слева, серии рядами, «серий нет»
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/SettingsActivity.kt`: настройки (GuidedStep): переключатель статистики
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/PlayerActivity.kt`: плеер: загрузка адреса master.m3u8, затем PlayerFragment
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/PlayerFragment.kt`: ExoPlayer в Leanback: пауза, перемотка, «Качество», ошибка, выход в конце, экран не гаснет
 - `app/src/main/res/layout/activity_content.xml`: контейнер фрагмента и крутилка
 - `app/src/main/res/raw/extra_roots.pem`: корни GlobalSign R46, R3, ISRG X1, X2
-- `app/src/main/res/values/`: строки, цвета, тема Leanback и чёрная тема плеера
-- `app/src/main/res/drawable*/`, `mipmap-*/`: баннер 320x180, иконка «Ю» (из `ICO.jpg`), значок качества
+- `app/src/main/res/values/`: строки, цвета, тема Leanback (кнопка-шар заголовка с шестерёнкой) и чёрная тема плеера
+- `app/src/main/res/drawable*/`, `mipmap-*/`: баннер 320x180, иконка «Ю» (из `ICO.jpg`), шестерёнка `ic_quality` (качество и настройки)
 - `docs/logo.jpg`: логотип для README (уменьшенный `ICO.jpg`)
 - `app/src/test/java/ru/sharl0t/utvplayer/data/LiveSiteTest.kt`: проверка разбора на живом сайте (UTV_LIVE=1)
 - `tools/ping-stats.py`: сводка по ping.log статистики устройств; копия лежит на сервере regru в `/root/ping-stats.py`
