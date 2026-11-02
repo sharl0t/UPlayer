@@ -15,4 +15,6 @@
     <string name="qr_telegram">QR-код Telegram @IRLME</string>
     <string name="stats_share">Делиться обезличенными данными</string>
     <string name="stats_share_description">Раз в сутки: модель приставки, версия Android и UPlayer. Что смотрите, не отправляется</string>
+    <string name="debug_info">Сведения об устройстве</string>
+    <string name="debug_info_format">Производитель: %1$s\nМодель: %2$s\nAndroid: %3$s (API %4$d)\nАрхитектура: %5$s\nUPlayer: %6$s</string>
 </resources>

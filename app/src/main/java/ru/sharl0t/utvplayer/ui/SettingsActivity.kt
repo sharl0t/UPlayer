@@ -1,5 +1,6 @@
 package ru.sharl0t.utvplayer.ui
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.leanback.app.GuidedStepSupportFragment
@@ -36,6 +37,28 @@ class SettingsFragment : GuidedStepSupportFragment() {
             .checkSetId(GuidedAction.CHECKBOX_CHECK_SET_ID)
             .checked(Stats.isEnabled(requireContext()))
             .build()
+        // Только показ, никуда не отправляется: пользователь может назвать это при обращении за помощью
+        actions += GuidedAction.Builder(requireContext())
+            .id(ACTION_INFO)
+            .title(R.string.debug_info)
+            .description(debugInfo())
+            .multilineDescription(true)
+            .infoOnly(true)
+            .focusable(false)
+            .build()
+    }
+
+    private fun debugInfo(): String {
+        val ctx = requireContext()
+        val version = try {
+            ctx.packageManager.getPackageInfo(ctx.packageName, 0).versionName.orEmpty()
+        } catch (e: Exception) {
+            ""
+        }
+        return getString(
+            R.string.debug_info_format, Build.MANUFACTURER, Build.MODEL, Build.VERSION.RELEASE,
+            Build.VERSION.SDK_INT, Build.SUPPORTED_ABIS.firstOrNull().orEmpty(), version
+        )
     }
 
     override fun onGuidedActionClicked(action: GuidedAction) {
@@ -44,5 +67,6 @@ class SettingsFragment : GuidedStepSupportFragment() {
 
     private companion object {
         const val ACTION_STATS = 1L
+        const val ACTION_INFO = 2L
     }
 }
