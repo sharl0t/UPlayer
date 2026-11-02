@@ -43,7 +43,7 @@
             <ImageView
                 android:layout_width="136dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="48dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/qr_telegram"
                 android:src="@drawable/qr_telegram" />
