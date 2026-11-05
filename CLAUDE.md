@@ -64,7 +64,7 @@
 
 ## Git
 
-- Репозиторий: GitHub `sharl0t/UPlayer` (до 2026-11-02 назывался UTvPlayer), приватный.
+- Репозиторий: GitHub `sharl0t/UPlayer` (до 2026-11-02 назывался UTvPlayer), публичный.
 - Remote `origin` по SSH.
 - Пушить после каждой задачи.
 

@@ -124,6 +124,7 @@ adb install -r UPlayer.apk
 Kotlin, Leanback (без Compose: приставки слабые), Media3 ExoPlayer с HLS через OkHttp, OkHttp + jsoup для разбора
 сайта, Coil для картинок. Без нативного кода и Google Play Services. minSdk 23, пакет `ru.sharl0t.utvplayer`.
 Карта файлов: [docs/MAP.md](docs/MAP.md), ход работы: [TASKS.md](TASKS.md).
+Лицензия кода: MIT, см. [LICENSE](LICENSE). Она не распространяется на видео и картинки с сайта u-tv.ru.
 
 ### Сборка
 
