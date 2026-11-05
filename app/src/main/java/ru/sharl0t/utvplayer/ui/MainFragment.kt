@@ -4,12 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.graphics.Outline
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewOutlineProvider
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.leanback.widget.BaseGridView
 import androidx.leanback.widget.VerticalGridView
 import androidx.recyclerview.widget.RecyclerView
 import coil.dispose
@@ -23,14 +25,27 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.findViewById<TextView>(R.id.count).text = plural(shows.size)
-        view.findViewById<View>(R.id.settings).setOnClickListener {
+        val grid = view.findViewById<VerticalGridView>(R.id.grid)
+        val settings = view.findViewById<View>(R.id.settings)
+        settings.setOnClickListener {
             startActivity(Intent(requireContext(), SettingsActivity::class.java))
         }
-        val grid = view.findViewById<VerticalGridView>(R.id.grid)
+        // Вниз с шестерёнки: на карточку, где фокус был до этого (сетка помнит выбранную позицию)
+        settings.setOnKeyListener { _, keyCode, event ->
+            (keyCode == KeyEvent.KEYCODE_DPAD_DOWN).also {
+                if (it && event.action == KeyEvent.ACTION_DOWN) grid.requestFocus()
+            }
+        }
+        // Первый ряд стоит у верхнего края сетки и не уезжает под верхний блок
+        grid.windowAlignment = BaseGridView.WINDOW_ALIGN_LOW_EDGE
+        grid.windowAlignmentOffsetPercent = 0f
+        grid.windowAlignmentOffset = 0
+        grid.itemAlignmentOffsetPercent = 0f
         val gap = (27 * resources.displayMetrics.density).toInt()
         grid.setHorizontalSpacing(gap)
         grid.setVerticalSpacing(gap)
-        grid.adapter = ShowAdapter(shows) { startActivity(ShowActivity.intent(requireContext(), it)) }
+        grid.adapter = ShowAdapter(shows, COLUMNS, settings) { startActivity(ShowActivity.intent(requireContext(), it)) }
+        grid.post { grid.requestFocus() }
     }
 
     private fun plural(n: Int): String {
@@ -45,6 +60,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private class ShowAdapter(
         private val items: List<Show>,
+        private val columns: Int,
+        private val settings: View,
         private val onClick: (Show) -> Unit,
     ) : RecyclerView.Adapter<ShowAdapter.Holder>() {
         class Holder(view: View) : RecyclerView.ViewHolder(view) {
@@ -85,6 +102,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             holder.name.text = show.title
             holder.image.load(show.imageUrl)
             holder.itemView.setOnClickListener { onClick(show) }
+            // Вверх из первого ряда: на шестерёнку
+            holder.itemView.setOnKeyListener { _, keyCode, event ->
+                (keyCode == KeyEvent.KEYCODE_DPAD_UP && position < columns).also {
+                    if (it && event.action == KeyEvent.ACTION_DOWN) settings.requestFocus()
+                }
+            }
         }
 
         override fun onViewRecycled(holder: Holder) = holder.image.dispose()
@@ -93,6 +116,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     companion object {
+        private const val COLUMNS = 6
+
         fun create(shows: List<Show>) = MainFragment().also { it.shows = shows }
     }
 }
