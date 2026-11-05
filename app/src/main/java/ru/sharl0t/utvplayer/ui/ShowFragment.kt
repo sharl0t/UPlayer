@@ -74,24 +74,43 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
         private val details: ShowDetails,
         private val onFocus: (Int) -> Unit,
     ) : RecyclerView.Adapter<SeasonAdapter.Holder>() {
-        class Holder(view: View, onFocus: (Int) -> Unit) : RecyclerView.ViewHolder(view) {
+        private var selected = 0
+        private var list: RecyclerView? = null
+
+        override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+            list = recyclerView
+        }
+
+        // Выбранный сезон: последний, на котором был фокус; activated рисует черту и подсветку
+        private fun choose(position: Int) {
+            selected = position
+            val rv = list ?: return
+            for (i in 0 until rv.childCount) {
+                val h = rv.getChildViewHolder(rv.getChildAt(i))
+                h.itemView.isActivated = h.adapterPosition == position
+            }
+            onFocus(position)
+        }
+
+        inner class Holder(view: View) : RecyclerView.ViewHolder(view) {
             val name: TextView = view.findViewById(R.id.season_name)
             val count: TextView = view.findViewById(R.id.season_count)
 
             init {
                 view.setOnFocusChangeListener { _, focused ->
-                    if (focused && adapterPosition != RecyclerView.NO_POSITION) onFocus(adapterPosition)
+                    if (focused && adapterPosition != RecyclerView.NO_POSITION) choose(adapterPosition)
                 }
             }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            Holder(LayoutInflater.from(parent.context).inflate(R.layout.item_season, parent, false), onFocus)
+            Holder(LayoutInflater.from(parent.context).inflate(R.layout.item_season, parent, false))
 
         override fun onBindViewHolder(holder: Holder, position: Int) {
             val season = details.seasons[position]
             holder.name.text = season.title
             holder.count.text = season.episodes.size.toString()
+            holder.itemView.isActivated = position == selected
         }
 
         override fun getItemCount() = details.seasons.size
