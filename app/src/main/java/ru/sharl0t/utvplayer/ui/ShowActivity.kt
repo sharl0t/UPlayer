@@ -41,6 +41,12 @@ class ShowActivity : LoadActivity<ShowDetails>() {
         super.onDestroy()
     }
 
+    @Suppress("OVERRIDE_DEPRECATION")
+    override fun onBackPressed() {
+        val show = supportFragmentManager.fragments.filterIsInstance<ShowFragment>().firstOrNull()
+        if (show?.backToSeasons() != true) super.onBackPressed()
+    }
+
     override suspend fun load() = UtvApi.show(intent.getStringExtra(EXTRA_SLUG).orEmpty())
 
     override fun contentFragment(data: ShowDetails): Fragment {

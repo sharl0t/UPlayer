@@ -27,6 +27,7 @@ import ru.sharl0t.utvplayer.data.ShowDetails
  */
 class ShowFragment : Fragment(R.layout.fragment_show) {
     private lateinit var details: ShowDetails
+    private var current = 0
     private lateinit var onPlay: (seasonTitle: String, Episode) -> Unit
     private val handler = Handler(Looper.getMainLooper())
     // Первые ~секунду после открытия серии выезжают волной справа
@@ -49,7 +50,7 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
             view.findViewById<TextView>(R.id.show_empty).visibility = View.VISIBLE
             return
         }
-        var current = 0
+        current = 0
         // Сезоны выезжают слева
         seasons.post { Anim.enter(seasons, dxDp = -40f, durationMs = 380) }
         handler.postDelayed({ entering = false }, 1400)
@@ -69,6 +70,17 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
         seasons.adapter = SeasonAdapter(details, select)
         select(0)
         seasons.post { seasons.requestFocus() }
+    }
+
+    /** «Назад» с ряда серий возвращает на выбор сезона; true, если нажатие обработано. */
+    fun backToSeasons(): Boolean {
+        val v = view ?: return false
+        val episodes = v.findViewById<View>(R.id.episodes)
+        if (!episodes.hasFocus()) return false
+        val seasons = v.findViewById<VerticalGridView>(R.id.seasons)
+        seasons.selectedPosition = current
+        seasons.requestFocus()
+        return true
     }
 
     override fun onDestroyView() {
