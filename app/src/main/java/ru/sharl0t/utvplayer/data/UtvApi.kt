@@ -85,17 +85,17 @@ object UtvApi {
     private fun parseEpisode(a: Element, showTitle: String, seasonTitle: String): Episode {
         val name = a.selectFirst(".swiperGroup__name")?.text()?.trim().orEmpty()
         // alt вида «Мама в 16. 3 серия. Анна, Ростов-на-Дону»: оставляем только описание после номера серии
-        val description = a.selectFirst("img")?.attr("alt").orEmpty()
-            .removePrefix(showTitle).trimStart('.', ' ')
-            .replace(Regex("""^\d+\s+серия\.?\s*"""), "")
-            .trim()
-            .takeIf { it.isNotEmpty() && it != name }
+        val description = EpisodeText.description(a.selectFirst("img")?.attr("alt").orEmpty(), showTitle, name)
+        val person = description?.let(EpisodeText::heroineAndCity)
         return Episode(
             url = a.attr("abs:href"),
             title = name.removePrefix(seasonTitle).trim().ifBlank { name },
             description = description,
             duration = a.selectFirst(".timeVideo")?.text()?.trim()?.takeIf { it.isNotEmpty() },
             imageUrl = imageUrl(a),
+            number = EpisodeText.number(name),
+            heroine = person?.first,
+            city = person?.second,
         )
     }
 

@@ -10,6 +10,11 @@ data class Episode(
     val description: String?,
     val duration: String?,
     val imageUrl: String?,
+    /** Номер серии из «1 сезон 3 серия», null если формат другой. */
+    val number: Int? = null,
+    /** Героиня и город из подписи; оба null, если подпись другого формата (тогда показывать description). */
+    val heroine: String? = null,
+    val city: String? = null,
 )
 
 data class ShowDetails(val title: String, val seasons: List<Season>)

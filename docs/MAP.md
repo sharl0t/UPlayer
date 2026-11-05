@@ -12,7 +12,8 @@
 - `app/src/main/java/ru/sharl0t/utvplayer/data/Net.kt`: общий OkHttp: свои корни сертификатов, cookie в памяти, User-Agent
 - `app/src/main/java/ru/sharl0t/utvplayer/data/Stats.kt`: статистика устройств: UUID установки, раз в сутки фоновый GET /ping на irlme.online, флаг «Делиться обезличенными данными»
 - `app/src/main/java/ru/sharl0t/utvplayer/data/UtvApi.kt`: разбор сайта: передачи, сезоны и серии, адрес master.m3u8
-- `app/src/main/java/ru/sharl0t/utvplayer/data/Models.kt`: Show, Season, Episode, ShowDetails
+- `app/src/main/java/ru/sharl0t/utvplayer/data/Models.kt`: Show, Season, Episode (номер, героиня, город), ShowDetails
+- `app/src/main/java/ru/sharl0t/utvplayer/data/EpisodeText.kt`: разбор подписей серий: номер, описание, героиня и город
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/LoadActivity.kt`: база экранов: загрузка, крутилка, ошибка с «Повторить»
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/MessageFragment.kt`: сообщение на весь экран с кнопкой «Повторить» или «Назад»
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/CardPresenter.kt`: карточки передач и серий с картинками (Coil)
@@ -34,6 +35,7 @@
 - `app/src/main/res/color/text_focus_name.xml`: цвет названия карточки: яркий в фокусе, приглушённый без
 - `app/src/main/res/drawable*/`, `mipmap-*/`: баннер 320x180, иконка «Ю» (из `ICO.jpg`), шестерёнка `ic_quality` (качество и настройки, светлая на тёмном) и `ic_settings_dark` (тёмная для кнопки в шапке на светлой плашке)
 - `docs/logo.jpg`: логотип для README (уменьшенный `ICO.jpg`)
+- `app/src/test/java/ru/sharl0t/utvplayer/data/EpisodeTextTest.kt`: юнит-тест разбора подписей серий
 - `app/src/test/java/ru/sharl0t/utvplayer/data/LiveSiteTest.kt`: проверка разбора на живом сайте (UTV_LIVE=1)
 - `tools/ping-stats.py`: сводка по ping.log статистики устройств; копия лежит на сервере regru в `/root/ping-stats.py`
 - `tools/qr-cards.py`: карточки QR для настроек: вырезает Telegram из `tools/QRTG.png`, рисует QR сайта в том же стиле (Pillow, qrencode)

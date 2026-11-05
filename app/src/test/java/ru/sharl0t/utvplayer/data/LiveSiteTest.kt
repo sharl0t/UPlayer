@@ -36,6 +36,10 @@ class LiveSiteTest {
         val mismatches = mutableListOf<String>()
         var episodes = 0
         var firstEpisode: Episode? = null
+        val parsedNumber = mutableListOf<Episode>()
+        val parsedPerson = mutableListOf<Episode>()
+        val otherFormat = mutableListOf<String>()
+        val noNumber = mutableListOf<String>()
         for (show in shows) {
             val details = UtvApi.show(show.slug)
             // data-total сверяем по сырому HTML, UtvApi его не читает
@@ -53,12 +57,18 @@ class LiveSiteTest {
             if (firstEpisode == null) firstEpisode = details.seasons.firstOrNull()?.episodes?.firstOrNull()
             println("${show.slug}: «${details.title}», сезонов ${details.seasons.size} (${details.seasons.joinToString { "${it.title}: ${it.episodes.size}" }})")
             details.seasons.flatMap { it.episodes }.forEach {
+                if (it.number != null) parsedNumber += it else noNumber += "${show.slug}: ${it.title}"
+                if (it.heroine != null) parsedPerson += it
+                else if (it.description != null) otherFormat += "${show.slug}: ${it.description}"
                 assertTrue("${show.slug}: серия без адреса", it.url.startsWith("https://"))
                 assertTrue("${show.slug}: серия без названия", it.title.isNotBlank())
             }
             assertTrue("${show.slug}: остался анонс", details.seasons.none { it.title.contains("анонс", true) })
         }
         println("Серий всего: $episodes")
+        println("Разбор подписей: номер ${parsedNumber.size}/$episodes, героиня и город ${parsedPerson.size}, описание другого формата ${otherFormat.size}")
+        otherFormat.take(15).forEach { println("  другой формат: $it") }
+        assertTrue("номер серии не разобран: ${noNumber.take(5)}", noNumber.size < episodes / 10)
         println("Несовпадений data-total: ${mismatches.size}")
         mismatches.forEach(::println)
 
