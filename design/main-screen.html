@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>UPlayer: главный экран (макет)</title>
+<style>
+:root{
+  /* палитра логотипа: тёмно-серый фон, светло-серая плашка, графитовая буква */
+  --brand:#2a2c31; --brand2:#212327; --accent:#e4e5e8;
+  --tile:#c6c7cb; --ink:#34363c;
+  --text:#e2e3e6; --muted:rgba(226,227,230,.55);
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#141518;overflow:hidden;
+  font-family:Roboto,"Segoe UI",system-ui,sans-serif;color:var(--text);user-select:none}
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#stage{position:relative;width:1920px;height:1080px;flex:none;overflow:hidden;
+  background:radial-gradient(ellipse 80% 70% at 50% 0%,#3a3c42 0%,var(--brand) 60%,#25272b 100%)}
+
+/* ---------- фон: картинка выбранной передачи, затемнённая ---------- */
+.bg{position:absolute;inset:0;overflow:hidden}
+.bg .layer{position:absolute;inset:-60px;opacity:0;transition:opacity .9s ease}
+.bg .layer.on{opacity:.35;animation:kenburns 26s ease-in-out infinite alternate}
+.bg::after{content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(90deg,var(--brand) 0%,rgba(42,44,49,.6) 40%,rgba(42,44,49,.92) 100%),
+    linear-gradient(0deg,var(--brand) 48%,rgba(42,44,49,0) 80%)}
+@keyframes kenburns{from{transform:scale(1.04)}to{transform:scale(1.16) translate(-40px,-20px)}}
+
+/* ---------- шапка ---------- */
+header{position:absolute;left:96px;right:96px;top:44px;height:76px;display:flex;align-items:center;gap:22px}
+.logo{width:64px;height:64px;border-radius:18px;color:var(--ink);
+  background:linear-gradient(180deg,#d3d4d7,#b8b9bd);box-shadow:0 4px 12px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.5);
+  font:900 42px/64px Roboto,sans-serif;text-align:center}
+.appname{font-size:34px;font-weight:700;letter-spacing:.5px;color:var(--tile)}
+.spacer{flex:1}
+.count{font-size:24px;color:var(--muted);margin-right:10px}
+.gear{position:relative;width:76px;height:76px;border-radius:50%;display:grid;place-items:center;cursor:pointer;
+  background:rgba(255,255,255,.08);color:var(--tile);transition:background .25s,transform .35s var(--ease)}
+.gear svg{width:42px;height:42px;transition:transform .6s var(--ease)}
+.gear.focus{background:var(--accent);color:var(--ink);transform:scale(1.12)}
+.gear.focus svg{transform:rotate(120deg)}
+.gear::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:3px solid var(--accent);opacity:0}
+.gear.focus::after{animation:pulse 1.8s ease-out infinite}
+@keyframes pulse{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(1.45)}}
+
+/* ---------- верхний блок: выбранная передача ---------- */
+.hero{position:absolute;left:96px;right:96px;top:150px;height:342px}
+.hero-img{position:absolute;left:0;top:0;width:400px;height:342px;border-radius:22px;overflow:hidden;
+  box-shadow:0 30px 70px rgba(0,0,0,.55);background:var(--brand2)}
+.hero-img .pic{position:absolute;inset:0}
+.pic.in{animation:picIn .65s var(--ease) both}
+.pic.out{animation:picOut .4s ease both}
+@keyframes picIn{from{opacity:0;transform:translateX(70px) scale(1.08)}to{opacity:1;transform:none}}
+@keyframes picOut{to{opacity:0;transform:translateX(-50px) scale(.94)}}
+.hero-text{position:absolute;left:464px;right:0;top:34px}
+.hero-title{font-size:78px;font-weight:800;color:var(--text);line-height:1.06;max-width:1100px;text-shadow:0 4px 24px rgba(0,0,0,.4)}
+.hero-title .w{display:inline-block;white-space:nowrap}
+.hero-title .l{display:inline-block;animation:letter .55s var(--ease) both;animation-delay:calc(var(--i)*24ms)}
+@keyframes letter{from{opacity:0;transform:translateY(34px) rotate(5deg)}}
+.bar{height:8px;width:140px;background:var(--accent);border-radius:4px;margin:30px 0 28px;transform-origin:left}
+.bar.grow{animation:bar .6s .12s var(--ease) both}
+@keyframes bar{from{transform:scaleX(0)}}
+.hint{display:flex;align-items:center;gap:16px;font-size:28px;color:var(--muted)}
+.hint.show{animation:fadeUp .5s .25s var(--ease) both}
+.okkey{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:50%;
+  border:3px solid var(--accent);color:var(--accent);font-weight:800;font-size:19px}
+.pos{font-size:24px;color:var(--muted);margin-top:22px;font-variant-numeric:tabular-nums}
+.pos.show{animation:fadeUp .5s .35s var(--ease) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}}
+
+/* ---------- сетка ---------- */
+.gridvp{position:absolute;left:0;right:0;top:526px;bottom:0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 26px,#000 82%,transparent 100%);
+          mask-image:linear-gradient(to bottom,transparent 0,#000 26px,#000 82%,transparent 100%)}
+.grid{position:absolute;left:96px;top:30px;display:grid;grid-template-columns:repeat(6,258px);
+  column-gap:36px;row-gap:36px;transition:transform .5s var(--ease)}
+.card{position:relative;width:258px;cursor:pointer}
+.card.enter{animation:cardIn .6s var(--ease) both;animation-delay:calc(var(--d)*45ms + 500ms)}
+@keyframes cardIn{from{opacity:0;transform:translateY(50px)}}
+.tw{position:relative;transition:transform .3s var(--ease)}
+.thumb{position:relative;width:258px;height:221px;border-radius:14px;overflow:hidden;
+  box-shadow:0 8px 20px rgba(0,0,0,.3);transition:box-shadow .3s}
+.thumb::before{content:"";position:absolute;inset:0;background:#000;opacity:.28;transition:opacity .3s;z-index:2}
+.thumb::after{content:"";position:absolute;inset:0;z-index:3;transform:translateX(-130%);
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.38) 50%,transparent 70%)}
+.ring{position:absolute;inset:-9px;border-radius:21px;border:6px solid var(--accent);
+  opacity:0;transform:scale(1.07);transition:opacity .18s,transform .3s var(--ease);pointer-events:none}
+.card.focus .tw{transform:translateY(-8px)}
+.card.focus .thumb{box-shadow:0 22px 44px rgba(0,0,0,.6)}
+.card.focus .thumb::before{opacity:0}
+.card.focus .thumb::after{animation:shine .85s .08s ease}
+.card.focus .ring{opacity:1;transform:scale(1)}
+.card.press .tw{transform:translateY(-4px) scale(.95);transition-duration:.12s}
+@keyframes shine{to{transform:translateX(130%)}}
+.name{height:56px;margin-top:16px;font-size:23px;color:var(--muted);overflow:hidden;white-space:nowrap;
+  transition:color .25s}
+.name span{display:block;overflow:hidden;text-overflow:ellipsis}
+.card.focus .name{color:var(--text)}
+.card.focus .name.long span{display:inline-block;overflow:visible;
+  animation:marquee var(--dur) 1s linear infinite alternate}
+@keyframes marquee{0%,10%{transform:none}90%,100%{transform:translateX(var(--shift))}}
+
+/* ---------- заглушка картинки ---------- */
+.art{position:absolute;inset:0;overflow:hidden}
+.art .mono{position:absolute;right:-6%;bottom:-18%;font-weight:900;font-size:var(--fs);line-height:1;
+  color:rgba(255,255,255,.1);letter-spacing:-.04em}
+.art .stripe{position:absolute;inset:0;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 2px,transparent 2px 22px)}
+
+/* ---------- заставка ---------- */
+#intro{position:absolute;inset:0;z-index:80;background:var(--brand);display:grid;place-items:center;
+  animation:introOut .5s 1.1s ease both;pointer-events:none}
+#intro .logo{width:180px;height:180px;border-radius:48px;font-size:120px;line-height:180px;
+  animation:introLogo 1.1s var(--ease) both}
+@keyframes introLogo{0%{transform:scale(.4);opacity:0}45%{transform:scale(1.08);opacity:1}70%{transform:scale(1)}100%{transform:scale(.36) translate(-2240px,-1180px);opacity:0}}
+@keyframes introOut{to{opacity:0;visibility:hidden}}
+header.enter{animation:headIn .6s .9s var(--ease) both}
+@keyframes headIn{from{opacity:0;transform:translateY(-30px)}}
+.hero.enter{animation:fadeUp .7s 1.0s var(--ease) both}
+
+/* ---------- лист «открытого» экрана ---------- */
+.sheet{position:absolute;z-index:60;overflow:hidden;border-radius:14px;background:var(--brand2);
+  transition:left .5s var(--ease),top .5s var(--ease),width .5s var(--ease),height .5s var(--ease),border-radius .5s}
+.sheet .art{opacity:.5}
+.sheet .shade{position:absolute;inset:0;background:linear-gradient(90deg,var(--brand2) 20%,rgba(33,35,39,.6))}
+.sheet .body{position:absolute;left:96px;top:120px;right:96px;opacity:0;transform:translateY(20px);
+  transition:opacity .35s,transform .45s var(--ease)}
+.sheet.open .body{opacity:1;transform:none;transition-delay:.3s}
+.sheet h1{font-size:72px;font-weight:800;margin-bottom:24px}
+.sheet p{font-size:30px;color:var(--muted);max-width:1100px;line-height:1.45}
+.back{display:inline-flex;align-items:center;gap:14px;margin-top:56px;padding:20px 38px;border-radius:40px;
+  font-size:28px;font-weight:700;background:var(--accent);color:var(--ink);cursor:pointer;
+  box-shadow:0 0 0 0 rgba(228,229,232,.45);animation:btnPulse 1.8s infinite}
+@keyframes btnPulse{70%{box-shadow:0 0 0 18px rgba(228,229,232,0)}100%{box-shadow:0 0 0 0 rgba(228,229,232,0)}}
+
+/* ---------- экран передачи (пока только «Мама в 16») ---------- */
+.showscr{position:absolute;inset:0;opacity:0;transition:opacity .35s}
+.sheet.open .showscr{opacity:1;transition-delay:.25s}
+.sh-top{position:absolute;left:96px;right:96px;top:44px;height:76px;display:flex;align-items:center;gap:22px}
+.sh-top .logo{width:56px;height:56px;font-size:36px;line-height:56px;border-radius:16px}
+.sh-title{font-size:44px;font-weight:800;color:var(--text)}
+.sh-meta{font-size:24px;color:var(--muted);margin-left:6px}
+.sh-back{font-size:22px;color:var(--muted);cursor:pointer}
+.seasons{position:absolute;left:96px;top:160px;width:340px;display:flex;flex-direction:column;gap:10px}
+.season{position:relative;height:76px;border-radius:14px;padding:0 24px;display:flex;align-items:center;
+  justify-content:space-between;font-size:28px;color:var(--muted);cursor:pointer;
+  transition:background .25s,color .25s,transform .3s var(--ease)}
+.season .c{font-size:20px;opacity:.75}
+.season::before{content:"";position:absolute;left:0;top:20px;bottom:20px;width:5px;border-radius:3px;
+  background:var(--accent);transform:scaleY(0);transition:transform .3s var(--ease),opacity .2s}
+.season.sel{color:var(--text);background:rgba(255,255,255,.06)}
+.season.sel::before{transform:scaleY(1)}
+.season.focus{background:var(--accent);color:var(--ink);transform:translateX(10px)}
+.season.focus::before{opacity:0}
+.sheet.open .season{animation:seasonIn .5s var(--ease) backwards;animation-delay:calc(var(--d)*50ms + .35s)}
+@keyframes seasonIn{from{opacity:0;transform:translateX(-40px)}}
+.ep-detail{position:absolute;left:500px;top:150px;right:96px;height:360px}
+.ep-img{position:absolute;left:0;top:0;width:640px;height:360px;border-radius:20px;overflow:hidden;
+  box-shadow:0 30px 70px rgba(0,0,0,.5);background:var(--brand2)}
+.ep-img .pic{position:absolute;inset:0}
+.ep-text{position:absolute;left:700px;top:34px;right:0}
+.ep-num{font-size:68px;font-weight:800;color:var(--text)}
+.ep-who{font-size:34px;color:var(--text);opacity:.9;margin-top:14px}
+.ep-meta{font-size:26px;color:var(--muted);margin-top:18px}
+.ep-text .hint{margin-top:44px}
+.ep-num.show{animation:fadeUp .45s var(--ease) both}
+.ep-who.show{animation:fadeUp .45s .06s var(--ease) both}
+.ep-meta.show{animation:fadeUp .45s .12s var(--ease) both}
+.ep-text .hint.show{animation:fadeUp .45s .18s var(--ease) both}
+.rowvp{position:absolute;left:470px;right:0;top:556px;height:330px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30px,#000 86%,transparent);
+          mask-image:linear-gradient(90deg,transparent 0,#000 30px,#000 86%,transparent)}
+.row{position:absolute;left:30px;top:24px;display:flex;gap:28px;transition:transform .45s var(--ease)}
+.ep{width:352px;flex:none}
+.ep .thumb{width:352px;height:198px}
+.ep .name{height:40px;margin-top:14px}
+.card.epin{animation:epIn .5s var(--ease) both;animation-delay:calc(var(--d)*45ms + var(--x,0ms))}
+@keyframes epIn{from{opacity:0;transform:translateX(70px)}}
+.dur{position:absolute;right:12px;bottom:12px;z-index:4;background:rgba(20,21,24,.82);color:var(--text);
+  font-size:19px;padding:4px 12px;border-radius:8px}
+.toast{position:absolute;left:50%;bottom:64px;z-index:5;transform:translate(-50%,24px);opacity:0;
+  background:var(--accent);color:var(--ink);padding:18px 36px;border-radius:40px;font-size:26px;font-weight:700;
+  transition:opacity .3s,transform .4s var(--ease);pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+body.lite .sheet.open .season{animation:none}
+body.lite .card.epin{animation-duration:.2s;animation-delay:0s}
+body.lite .season.focus{transform:none}
+
+/* ---------- облегчённый режим ---------- */
+body.lite .bg .layer.on{animation:none}
+body.lite .card.focus .thumb::after{animation:none}
+body.lite .hero-title .l{animation:none}
+body.lite .card.enter{animation-delay:0s;animation-duration:.25s}
+body.lite .gear.focus::after{animation:none}
+body.lite .card.focus .tw{transform:none}
+body.lite .ring{transition:none;transform:none}
+
+/* ---------- панель макета (вне экрана ТВ) ---------- */
+#panel{position:fixed;right:14px;bottom:14px;z-index:100;background:rgba(0,0,0,.72);border:1px solid #333;
+  border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.6;color:#ccc;backdrop-filter:blur(4px)}
+#panel label{cursor:pointer;display:flex;gap:8px;align-items:center;color:#fff}
+#panel kbd{background:#333;border-radius:4px;padding:0 5px;font-family:inherit}
+</style>
+</head>
+<body>
+<div id="viewport">
+<div id="stage">
+  <div class="bg"><div class="layer" id="bgA"></div><div class="layer" id="bgB"></div></div>
+
+  <header class="enter">
+    <div class="logo">Ю</div>
+    <div class="appname">Player</div>
+    <div class="spacer"></div>
+    <div class="count"><span id="cnt">0</span> передач</div>
+    <div class="gear" id="gear" title="Настройки">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+    </div>
+  </header>
+
+  <section class="hero enter">
+    <div class="hero-img" id="heroImg"></div>
+    <div class="hero-text">
+      <div class="hero-title" id="heroTitle"></div>
+      <div class="bar" id="heroBar"></div>
+      <div class="hint" id="heroHint"><span class="okkey">OK</span> открыть передачу</div>
+      <div class="pos" id="heroPos"></div>
+    </div>
+  </section>
+
+  <div class="gridvp" id="gridvp"><div class="grid" id="grid"></div></div>
+
+  <div id="intro"><div class="logo">Ю</div></div>
+</div>
+</div>
+
+<div id="panel">
+  <label><input type="checkbox" id="lite"> Облегчённые анимации (как на H313)</label>
+  Мышь: наведение = фокус, клик = OK, колесо = прокрутка<br>
+  Клавиатура: <kbd>←↑→↓</kbd> <kbd>Enter</kbd> <kbd>Esc</kbd> (назад)
+</div>
+
+<script>
+// Условные названия: в приложении придут с сайта вместе с картинками 720×616
+const NAMES = ["Мама в 16","Беременна в 16","Дом-2","Супермамочка","Званый ужин","Маша и Медведь",
+  "Свадьба вслепую","Битва свекровей","Хочу в декрет","Мой новый дом","Кухня на троих","Переезд за семь дней",
+  "Сёстры","Ревизия вкуса","Звёзды в деревне","Чужая семья","Мамы на старте","Свидание за кадром",
+  "Подруги навсегда","Отпуск без мамы","Ремонт мечты","Битва стилистов","Любовь на районе","Детки и предки",
+  "Тайный поклонник","Большой переезд","Первое свидание","Новая жизнь","Сладкая жизнь","Школа невест",
+  "Девичник","Экзамен для мамы","Город невест","Остров перемен","Семейный бюджет","Жизнь после шоу"];
+
+const stage = document.getElementById('stage');
+const grid = document.getElementById('grid');
+const gridvp = document.getElementById('gridvp');
+const gear = document.getElementById('gear');
+const COLS = 6, ROW_H = 221 + 16 + 56 + 36;
+let scale = 1, focus = {zone:'grid', i:0}, lastGrid = 0, scrollRow = 0;
+let heroShown = -1, heroTimer = 0, bgFlip = false, sheet = null;
+
+function hash(s){let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
+function artHTML(name, fs){
+  // заглушка: только оттенки серого, как в логотипе
+  const l = 30 + hash(name)%16, x=20+hash(name+'x')%60, y=10+hash(name+'y')%40;
+  const bg = `radial-gradient(circle at ${x}% ${y}%,rgba(255,255,255,.1),transparent 60%),`+
+             `linear-gradient(180deg,hsl(225 5% ${l}%),hsl(225 6% ${l-12}%))`;
+  const mono = name.split(/[\s-]+/).filter(w=>w.length>1||/\d/.test(w)).slice(0,2).map(w=>w[0]).join('');
+  return `<div class="art" style="background:${bg};--fs:${fs}px"><div class="stripe"></div><div class="mono">${mono}</div></div>`;
+}
+function artBG(name){
+  const l = 30 + hash(name)%16;
+  return `linear-gradient(180deg,hsl(225 5% ${l}%),hsl(225 6% ${l-14}%))`;
+}
+
+// ---------- сетка ----------
+NAMES.forEach((n,i)=>{
+  const c = document.createElement('div');
+  c.className = 'card enter';
+  c.style.setProperty('--d', Math.floor(i/COLS)*2 + i%COLS);
+  c.innerHTML = `<div class="tw"><div class="thumb">${artHTML(n,170)}</div><div class="ring"></div></div>
+                 <div class="name"><span>${n}</span></div>`;
+  c.addEventListener('mouseenter',()=>{ if(!sheet) setFocus({zone:'grid',i},'mouse') });
+  c.addEventListener('click',()=>{ if(!sheet){ setFocus({zone:'grid',i},'mouse'); ok() } });
+  c.addEventListener('animationend',e=>{ if(e.animationName==='cardIn') c.classList.remove('enter') });
+  grid.appendChild(c);
+});
+const cards = [...grid.children];
+gear.addEventListener('mouseenter',()=>{ if(!sheet) setFocus({zone:'gear'},'mouse') });
+gear.addEventListener('click',()=>{ if(!sheet){ setFocus({zone:'gear'},'mouse'); ok() } });
+
+// длинные названия: бегущая строка на фокусе
+requestAnimationFrame(()=>cards.forEach(c=>{
+  const box=c.querySelector('.name'), sp=box.querySelector('span');
+  const over = sp.scrollWidth - box.clientWidth;
+  if(over>2){ box.classList.add('long'); sp.style.setProperty('--shift',-(over+8)+'px');
+              sp.style.setProperty('--dur',(1.5+over/60)+'s') }
+}));
+
+// ---------- фокус ----------
+function setFocus(f, src){
+  if(f.zone===focus.zone && f.i===focus.i) return;
+  cards.forEach(c=>c.classList.remove('focus'));
+  gear.classList.remove('focus');
+  focus = f;
+  if(f.zone==='gear'){ gear.classList.add('focus'); return }
+  lastGrid = f.i;
+  cards[f.i].classList.add('focus');
+  if(src==='key'){ const r=Math.floor(f.i/COLS); if(r!==scrollRow){ scrollRow=r; applyScroll() } }
+  clearTimeout(heroTimer);
+  heroTimer = setTimeout(()=>showHero(f.i), src==='init'?0:260);
+}
+function applyScroll(){ grid.style.transform = `translateY(${-scrollRow*ROW_H}px)` }
+gridvp.addEventListener('wheel',e=>{
+  if(sheet) return; e.preventDefault();
+  const maxRow = Math.ceil(cards.length/COLS)-1;
+  scrollRow = Math.max(0,Math.min(maxRow, scrollRow + (e.deltaY>0?1:-1))); applyScroll();
+},{passive:false});
+
+// ---------- верхний блок ----------
+function showHero(i){
+  if(i===heroShown) return; heroShown = i;
+  const n = NAMES[i], img = document.getElementById('heroImg');
+  [...img.children].forEach(p=>{ p.classList.remove('in'); p.classList.add('out');
+    p.addEventListener('animationend',()=>p.remove(),{once:true}) });
+  const p = document.createElement('div'); p.className='pic in'; p.innerHTML = artHTML(n,260); img.appendChild(p);
+
+  let k=0;
+  document.getElementById('heroTitle').innerHTML = n.split(' ').map(w=>
+    `<span class="w">${[...w].map(ch=>`<span class="l" style="--i:${k++}">${ch}</span>`).join('')}</span>`).join(' ');
+  restart(document.getElementById('heroBar'),'grow');
+  restart(document.getElementById('heroHint'),'show');
+  const pos = document.getElementById('heroPos');
+  pos.textContent = `${i+1} из ${NAMES.length}`; restart(pos,'show');
+
+  bgFlip=!bgFlip;
+  const on = document.getElementById(bgFlip?'bgA':'bgB'), off = document.getElementById(bgFlip?'bgB':'bgA');
+  on.style.background = artBG(n); on.classList.add('on'); off.classList.remove('on');
+}
+function restart(el,cls){ el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls) }
+
+// ---------- OK: «открыть» экран листом из карточки ----------
+function stageRect(el){
+  const r=el.getBoundingClientRect(), s=stage.getBoundingClientRect();
+  return {x:(r.left-s.left)/scale, y:(r.top-s.top)/scale, w:r.width/scale, h:r.height/scale};
+}
+function ok(){
+  let from, title, text, art;
+  if(focus.zone==='gear'){
+    from = stageRect(gear); title='Настройки'; art=artHTML('Настройки',400);
+    text='Здесь будет экран настроек: переключатель «Делиться обезличенными данными», сведения об устройстве, QR-коды сайта и Telegram.';
+  } else {
+    const c = cards[focus.i]; c.classList.add('press'); setTimeout(()=>c.classList.remove('press'),140);
+    from = stageRect(c.querySelector('.thumb')); title=NAMES[focus.i]; art=artHTML(title,600);
+    text='Здесь будет экран передачи: сезоны слева, серии рядами. Готов только для «Мама в 16».';
+  }
+  const isShow = focus.zone==='grid' && title==='Мама в 16';
+  const s = document.createElement('div'); s.className='sheet';
+  Object.assign(s.style,{left:from.x+'px',top:from.y+'px',width:from.w+'px',height:from.h+'px'});
+  if(isShow){
+    s.innerHTML = `${art}<div class="shade"></div><div class="showscr"></div>`;
+    s.ctl = buildShow(s.querySelector('.showscr'), title);
+  } else {
+    s.innerHTML = `${art}<div class="shade"></div><div class="body"><h1>${title}</h1><p>${text}</p>
+                   <div class="back">← Назад</div></div>`;
+    s.querySelector('.back').addEventListener('click',back);
+  }
+  s.addEventListener('contextmenu',e=>{e.preventDefault();back()});
+  stage.appendChild(s); s._from=from; sheet=s;
+  setTimeout(()=>{
+    Object.assign(s.style,{left:'0px',top:'0px',width:'1920px',height:'1080px',borderRadius:'0px'});
+    s.classList.add('open');
+  }, 150);
+}
+function back(){
+  if(!sheet) return; const s=sheet, f=s._from; sheet=null;
+  s.classList.remove('open');
+  Object.assign(s.style,{left:f.x+'px',top:f.y+'px',width:f.w+'px',height:f.h+'px',borderRadius:'14px'});
+  setTimeout(()=>{ s.style.transition='opacity .2s'; s.style.opacity=0; setTimeout(()=>s.remove(),200) }, 480);
+}
+
+// ---------- экран передачи (пока только «Мама в 16») ----------
+// Названия сезонов как на сайте: бывают «эксклюзив сезон» и «Интервью сезон»
+const SHOW_SEASONS = [["1 сезон",10],["2 сезон",12],["3 сезон",14],["4 сезон",8],["эксклюзив сезон",5],["Интервью сезон",3]];
+const HEROINES = ["Анна, Ростов-на-Дону","Дарья, Пермь","Кристина, Тула","Валерия, Омск","Алина, Самара",
+  "Полина, Курск","Юлия, Казань","Ксения, Тверь","Марина, Барнаул","Ольга, Сочи","Виктория, Иркутск",
+  "Анастасия, Брянск","Екатерина, Липецк","Елизавета, Чита"];
+const EP_W = 352 + 28;
+function plural(n,a,b,c){const m=n%10,h=n%100;return m===1&&h!==11?a:(m>=2&&m<=4&&(h<10||h>=20)?b:c)}
+function cap(t){return t[0].toUpperCase()+t.slice(1)}
+function episodes(si){
+  const [name,cnt]=SHOW_SEASONS[si];
+  return Array.from({length:cnt},(_,k)=>{
+    const h=HEROINES[(si*5+k)%HEROINES.length];
+    return {n:k+1, season:name, who: name==='Интервью сезон' ? 'Интервью: '+h.split(',')[0] : h,
+            dur:40+hash(name+k)%39};
+  });
+}
+function buildShow(root, title){
+  const total = SHOW_SEASONS.reduce((a,x)=>a+x[1],0);
+  root.innerHTML = `
+    <div class="sh-top"><div class="logo">Ю</div><div class="sh-title">${title}</div>
+      <div class="sh-meta">${SHOW_SEASONS.length} сезонов · ${total} ${plural(total,'серия','серии','серий')}</div>
+      <div class="spacer"></div><div class="sh-back">← Назад: к каталогу</div></div>
+    <div class="seasons"></div>
+    <div class="ep-detail"><div class="ep-img"></div>
+      <div class="ep-text"><div class="ep-num"></div><div class="ep-who"></div><div class="ep-meta"></div>
+        <div class="hint"><span class="okkey">OK</span> смотреть</div></div></div>
+    <div class="rowvp"><div class="row"></div></div>
+    <div class="toast"></div>`;
+  const $=q=>root.querySelector(q);
+  const sEl=$('.seasons'), row=$('.row'), img=$('.ep-img'), num=$('.ep-num'), who=$('.ep-who'),
+        meta=$('.ep-meta'), hint=$('.ep-text .hint'), toast=$('.toast');
+  $('.sh-back').addEventListener('click',back);
+  const st={zone:'seasons', si:0, ei:0, start:0, eps:[]};
+  let shown=null, toastT=0, first=true;
+
+  SHOW_SEASONS.forEach(([n,c],i)=>{
+    const d=document.createElement('div'); d.className='season'; d.style.setProperty('--d',i);
+    d.innerHTML=`<span>${cap(n)}</span><span class="c">${c} ${plural(c,'серия','серии','серий')}</span>`;
+    d.addEventListener('mouseenter',()=>focusSeason(i));
+    sEl.appendChild(d);
+  });
+  const sItems=[...sEl.children];
+
+  function paint(){
+    sItems.forEach((d,i)=>{ d.classList.toggle('sel',i===st.si); d.classList.toggle('focus',st.zone==='seasons'&&i===st.si) });
+    [...row.children].forEach((c,i)=>c.classList.toggle('focus',st.zone==='eps'&&i===st.ei));
+  }
+  function fillRow(){
+    st.eps=episodes(st.si); st.ei=0; st.start=0; scrollRow(); row.innerHTML='';
+    st.eps.forEach((ep,i)=>{
+      const c=document.createElement('div'); c.className='card ep epin';
+      c.style.setProperty('--d',Math.min(i,6)); if(first) c.style.setProperty('--x','450ms');
+      c.innerHTML=`<div class="tw"><div class="thumb">${artHTML(ep.season+ep.n+ep.who,110)}
+        <div class="dur">${ep.dur} мин</div></div><div class="ring"></div></div>
+        <div class="name"><span>${ep.n} серия</span></div>`;
+      c.addEventListener('mouseenter',()=>focusEp(i,'mouse'));
+      c.addEventListener('click',()=>{ focusEp(i,'mouse'); play() });
+      c.addEventListener('animationend',e=>{ if(e.animationName==='epIn') c.classList.remove('epin') });
+      row.appendChild(c);
+    });
+    first=false; detail();
+  }
+  function focusSeason(i){
+    const changed=i!==st.si; st.zone='seasons'; st.si=i;
+    if(changed) fillRow(); else detail();
+    paint();
+  }
+  function focusEp(i,src){
+    st.zone='eps'; st.ei=i;
+    if(src==='key'){ if(i<st.start) st.start=i; else if(i>st.start+2) st.start=i-2; scrollRow() }
+    paint(); detail();
+  }
+  function scrollRow(){ row.style.transform=`translateX(${-st.start*EP_W}px)` }
+  function detail(){
+    const ep=st.eps[st.zone==='eps'?st.ei:0], key=ep.season+ep.n;
+    if(key===shown) return; shown=key;
+    [...img.children].forEach(p=>{ p.classList.remove('in'); p.classList.add('out');
+      p.addEventListener('animationend',()=>p.remove(),{once:true}) });
+    const p=document.createElement('div'); p.className='pic in'; p.innerHTML=artHTML(ep.season+ep.n+ep.who,200); img.appendChild(p);
+    num.textContent=`${ep.n} серия`; who.textContent=ep.who; meta.textContent=`${cap(ep.season)} · ${ep.dur} мин`;
+    [num,who,meta,hint].forEach(el=>restart(el,'show'));
+  }
+  function play(){
+    const ep=st.eps[st.ei];
+    toast.textContent=`▶ Здесь запустится плеер: ${ep.season}, ${ep.n} серия`;
+    restart(toast,'on'); clearTimeout(toastT); toastT=setTimeout(()=>toast.classList.remove('on'),2200);
+  }
+  $('.rowvp').addEventListener('wheel',e=>{
+    e.preventDefault(); e.stopPropagation();
+    st.start=Math.max(0,Math.min(Math.max(0,st.eps.length-3), st.start+((e.deltaY||e.deltaX)>0?1:-1))); scrollRow();
+  },{passive:false});
+
+  fillRow(); paint();
+  return { key(k){
+    if(st.zone==='seasons'){
+      if(k==='ArrowUp'){ if(st.si>0) focusSeason(st.si-1) }
+      else if(k==='ArrowDown'){ if(st.si<sItems.length-1) focusSeason(st.si+1) }
+      else if(k==='ArrowRight'||k==='Enter') focusEp(0,'key');
+      else if(k!=='ArrowLeft') return false;
+      return true;
+    }
+    if(k==='ArrowLeft'){ if(st.ei>0) focusEp(st.ei-1,'key'); else { st.zone='seasons'; paint(); detail() } }
+    else if(k==='ArrowRight'){ if(st.ei<st.eps.length-1) focusEp(st.ei+1,'key') }
+    else if(k==='Enter') play();
+    else if(k!=='ArrowUp'&&k!=='ArrowDown') return false;
+    return true;
+  }};
+}
+
+// ---------- клавиатура как пульт ----------
+document.addEventListener('keydown',e=>{
+  const k=e.key;
+  if(sheet){
+    e.preventDefault();
+    if(sheet.ctl && sheet.ctl.key(k)) return;
+    if(k==='Escape'||k==='Backspace'||(!sheet.ctl && k==='Enter')) back();
+    return;
+  }
+  if(focus.zone==='gear'){
+    if(k==='ArrowDown') setFocus({zone:'grid',i:lastGrid},'key');
+    else if(k==='Enter') ok();
+    else return;
+  } else {
+    const i=focus.i, col=i%COLS, n=cards.length;
+    let j=i;
+    if(k==='ArrowRight' && col<COLS-1 && i+1<n) j=i+1;
+    else if(k==='ArrowLeft' && col>0) j=i-1;
+    else if(k==='ArrowDown') j=Math.min(i+COLS,n-1);
+    else if(k==='ArrowUp'){ if(i<COLS){ setFocus({zone:'gear'},'key'); e.preventDefault(); return } j=i-COLS }
+    else if(k==='Enter'){ ok(); e.preventDefault(); return }
+    else return;
+    setFocus({zone:'grid',i:j},'key');
+  }
+  e.preventDefault();
+});
+
+// ---------- масштаб под окно ----------
+function fit(){ scale=Math.min(innerWidth/1920, innerHeight/1080); stage.style.transform=`scale(${scale})` }
+addEventListener('resize',fit); fit();
+
+// ---------- запуск ----------
+document.getElementById('lite').addEventListener('change',e=>document.body.classList.toggle('lite',e.target.checked));
+focus={zone:'none'};
+setTimeout(()=>setFocus({zone:'grid',i:0},'init'), 950);
+(function count(){ const el=document.getElementById('cnt'), N=NAMES.length, t0=performance.now()+900;
+  (function f(t){ const p=Math.max(0,Math.min(1,(t-t0)/900)); el.textContent=Math.round(N*(1-Math.pow(1-p,3)));
+    if(p<1) requestAnimationFrame(f) })(t0) })();
+</script>
+</body>
+</html>

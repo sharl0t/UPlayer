@@ -31,3 +31,5 @@
 - `tools/ping-stats.py`: сводка по ping.log статистики устройств; копия лежит на сервере regru в `/root/ping-stats.py`
 - `tools/qr-cards.py`: карточки QR для настроек: вырезает Telegram из `tools/QRTG.png`, рисует QR сайта в том же стиле (Pillow, qrencode)
 - `tools/QRTG.png`: исходный скриншот QR Telegram @IRLME
+- `design/main-screen.html`: HTML-макет нового главного экрана и экрана передачи «Мама в 16» (1920×1080, фокус мышью и стрелками, анимации, облегчённый режим)
+- `design/PLAN.md`: подход и палитра нового дизайна; сами задачи в `TASKS.md`, раздел 10
