@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Карточка серии 16:9, 264x149dp (макет 352x198) -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="264dp"
+    android:layout_width="176dp"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="21dp"
+    android:layout_marginEnd="14dp"
     android:clipChildren="false"
     android:focusable="true"
     android:orientation="vertical">
 
     <FrameLayout
-        android:layout_width="264dp"
-        android:layout_height="149dp"
+        android:layout_width="176dp"
+        android:layout_height="99dp"
         android:clipChildren="false">
 
         <ImageView
@@ -26,14 +26,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="8dp"
+            android:layout_margin="5dp"
             android:background="@drawable/duration_badge"
-            android:paddingStart="8dp"
-            android:paddingTop="2dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="2dp"
+            android:paddingStart="5dp"
+            android:paddingTop="1dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="1dp"
             android:textColor="@color/text"
-            android:textSize="13sp" />
+            android:textSize="9sp" />
 
         <View
             android:layout_width="match_parent"
@@ -47,9 +47,10 @@
         android:id="@+id/ep_card_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:ellipsize="end"
-        android:maxLines="1"
+        android:maxLines="2"
+        android:duplicateParentState="true"
         android:textColor="@color/text_focus_name"
-        android:textSize="17sp" />
+        android:textSize="13sp" />
 </LinearLayout>

@@ -2,14 +2,14 @@
 <!-- Размеры фокуса и скруглений, макет design/main-screen.html; без увеличения карточки (design/PLAN.md) -->
 <resources>
     <!-- Рамка фокуса: толщина и отступ от картинки наружу -->
-    <dimen name="focus_ring_width">6dp</dimen>
-    <dimen name="focus_ring_gap">9dp</dimen>
-    <dimen name="focus_ring_gap_neg">-9dp</dimen>
+    <dimen name="focus_ring_width">5dp</dimen>
+    <dimen name="focus_ring_gap">6dp</dimen>
+    <dimen name="focus_ring_gap_neg">-6dp</dimen>
     <!-- Скругление картинки карточки и внешнее скругление рамки (картинка + отступ) -->
-    <dimen name="card_radius">14dp</dimen>
-    <dimen name="focus_ring_radius">23dp</dimen>
+    <dimen name="card_radius">9dp</dimen>
+    <dimen name="focus_ring_radius">15dp</dimen>
     <!-- Подъём карточки в фокусе -->
-    <dimen name="focus_lift">8dp</dimen>
+    <dimen name="focus_lift">5dp</dimen>
     <!-- Скругление светлой плашки фокуса (сезон, кнопка) -->
-    <dimen name="plate_radius">14dp</dimen>
+    <dimen name="plate_radius">9dp</dimen>
 </resources>

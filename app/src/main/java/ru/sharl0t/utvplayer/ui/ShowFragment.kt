@@ -51,7 +51,7 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
         }
         var current = 0
         // Сезоны выезжают слева
-        seasons.post { Anim.enter(seasons, dxDp = -60f, durationMs = 380) }
+        seasons.post { Anim.enter(seasons, dxDp = -40f, durationMs = 380) }
         handler.postDelayed({ entering = false }, 1400)
         val episodeAdapter = EpisodeAdapter(
             isEntering = { entering },
@@ -83,7 +83,7 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
         if (firstEpisode) firstEpisode = false else {
             // Картинка приезжает справа, текст поднимается снизу
             Anim.slideIn(image)
-            Anim.enter(text, delayMs = 60, dyDp = 18f, durationMs = 260)
+            Anim.enter(text, delayMs = 60, dyDp = 12f, durationMs = 260)
         }
         image.load(ep.imageUrl)
         view.findViewById<View>(R.id.ep_hint).visibility = if (watchable) View.VISIBLE else View.INVISIBLE
@@ -155,6 +155,22 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
         private val onClick: (Episode) -> Unit,
     ) : RecyclerView.Adapter<EpisodeAdapter.Holder>() {
         private var items: List<Episode> = emptyList()
+        // Выбранная серия: тонкая рамка остаётся, когда фокус ушёл на колонку сезонов
+        private var selected = 0
+        private var list: RecyclerView? = null
+
+        override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+            list = recyclerView
+        }
+
+        private fun choose(position: Int) {
+            selected = position
+            val rv = list ?: return
+            for (i in 0 until rv.childCount) {
+                val h = rv.getChildViewHolder(rv.getChildAt(i))
+                h.itemView.isActivated = h.adapterPosition == position
+            }
+        }
 
         class Holder(view: View) : RecyclerView.ViewHolder(view) {
             val image: ImageView = view.findViewById(R.id.ep_card_image)
@@ -173,6 +189,7 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
 
         fun submit(list: List<Episode>) {
             items = list
+            selected = 0
             notifyDataSetChanged()
         }
 
@@ -193,7 +210,13 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
                 } else false
             }
             holder.itemView.setOnClickListener { onClick(ep) }
-            holder.itemView.setOnFocusChangeListener { _, focused -> if (focused) onFocus(ep) }
+            holder.itemView.isActivated = position == selected
+            holder.itemView.setOnFocusChangeListener { _, focused ->
+                if (focused) {
+                    choose(holder.adapterPosition)
+                    onFocus(ep)
+                }
+            }
         }
 
         override fun onViewRecycled(holder: Holder) = holder.image.dispose()
@@ -202,7 +225,7 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
         override fun onViewAttachedToWindow(holder: Holder) {
             val pos = holder.adapterPosition
             if (isEntering() && pos != RecyclerView.NO_POSITION) {
-                Anim.enter(holder.itemView, delayMs = pos * 70L, dxDp = 80f, durationMs = 380)
+                Anim.enter(holder.itemView, delayMs = pos * 70L, dxDp = 53f, durationMs = 380)
             } else Anim.reset(holder.itemView)
         }
 

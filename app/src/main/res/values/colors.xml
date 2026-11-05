@@ -7,4 +7,6 @@
     <color name="letter">#34363c</color>
     <color name="focus">#e4e5e8</color>
     <color name="text">#e2e3e6</color>
+    <!-- Буфер на полосе плеера: Leanback читает цвет по id ресурса, литерал в теме роняет плеер -->
+    <color name="progress_secondary">#66c6c7cb</color>
 </resources>

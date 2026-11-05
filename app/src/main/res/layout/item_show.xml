@@ -2,15 +2,15 @@
 <!-- Карточка передачи: картинка 194x166dp (макет 258x221), затемнение без фокуса, рамка в фокусе, название.
      Подъём и бегущая строка включаются из MainFragment по фокусу -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="194dp"
+    android:layout_width="129dp"
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:focusable="true"
     android:orientation="vertical">
 
     <FrameLayout
-        android:layout_width="194dp"
-        android:layout_height="166dp"
+        android:layout_width="129dp"
+        android:layout_height="111dp"
         android:clipChildren="false">
 
         <ImageView
@@ -41,11 +41,12 @@
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="27dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="18dp"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
+        android:duplicateParentState="true"
         android:textColor="@color/text_focus_name"
-        android:textSize="17sp" />
+        android:textSize="13sp" />
 </LinearLayout>

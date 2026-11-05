@@ -43,10 +43,13 @@ object Anim {
     }
 
     /** Картинка приезжает справа на место. */
-    fun slideIn(view: View) = enter(view, dxDp = 40f, durationMs = 260)
+    fun slideIn(view: View) = enter(view, dxDp = 27f, durationMs = 260)
 
-    /** Подъём карточки или возврат при потере фокуса. */
-    fun lift(view: View, focused: Boolean, liftPx: Float) {
-        view.animate().translationY(if (focused) -liftPx else 0f).setStartDelay(0).setDuration(140).start()
+    /** Подъём и лёгкое увеличение карточки или возврат при потере фокуса. */
+    fun lift(view: View, focused: Boolean, liftPx: Float, scale: Float = 1.07f) {
+        val s = if (focused) scale else 1f
+        // translationZ поднимает выбранную карточку над соседями при перекрытии
+        view.animate().translationY(if (focused) -liftPx else 0f).scaleX(s).scaleY(s)
+            .translationZ(if (focused) 1f else 0f).setStartDelay(0).setDuration(140).start()
     }
 }

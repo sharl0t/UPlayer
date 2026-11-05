@@ -41,7 +41,7 @@
         <item name="defaultBrandColor">@color/dark</item>
         <item name="defaultBrandColorDark">@color/dark</item>
         <item name="playbackProgressPrimaryColor">@color/focus</item>
-        <item name="playbackProgressSecondaryColor">#66c6c7cb</item>
+        <item name="playbackProgressSecondaryColor">@color/progress_secondary</item>
         <item name="playbackControlsIconHighlightColor">@color/focus</item>
         <item name="android:alertDialogTheme">@style/PlayerDialog</item>
     </style>

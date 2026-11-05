@@ -2,16 +2,16 @@
 <!-- Сезон в колонке: название и число серий; плашка в фокусе, черта и подсветка у выбранного (activated) -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="57dp"
-    android:layout_marginBottom="8dp"
+    android:layout_height="38dp"
+    android:layout_marginBottom="5dp"
     android:background="@drawable/season_bg_selector"
     android:focusable="true">
 
     <View
-        android:layout_width="4dp"
+        android:layout_width="3dp"
         android:layout_height="match_parent"
-        android:layout_marginTop="14dp"
-        android:layout_marginBottom="14dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="9dp"
         android:background="@drawable/season_bar_selector"
         android:duplicateParentState="true" />
 
@@ -20,8 +20,8 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="18dp"
-        android:paddingEnd="18dp">
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
 
         <TextView
             android:id="@+id/season_name"
@@ -30,14 +30,16 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
+            android:duplicateParentState="true"
             android:textColor="@color/text_focus_selector"
-            android:textSize="21sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/season_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:duplicateParentState="true"
             android:textColor="@color/text_focus_selector"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
     </LinearLayout>
 </FrameLayout>

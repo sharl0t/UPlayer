@@ -59,7 +59,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         grid.windowAlignmentOffsetPercent = 0f
         grid.windowAlignmentOffset = 0
         grid.itemAlignmentOffsetPercent = 0f
-        val gap = (27 * resources.displayMetrics.density).toInt()
+        val gap = (18 * resources.displayMetrics.density).toInt()
         grid.setHorizontalSpacing(gap)
         grid.setVerticalSpacing(gap)
         val heroImage = view.findViewById<ImageView>(R.id.hero_image)
@@ -91,8 +91,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     heroTitle.text = show.title
                     heroPos.text = "${position + 1} из ${shows.size}"
                     heroBar.visibility = View.VISIBLE
-                    Anim.enter(heroTitle, dyDp = 18f)
-                    Anim.enter(heroPos, delayMs = 80, dyDp = 18f)
+                    Anim.enter(heroTitle, dyDp = 12f)
+                    Anim.enter(heroPos, delayMs = 80, dyDp = 12f)
                     Anim.stretch(heroBar, delayMs = 60)
                     heroImage.load(show.imageUrl) {
                         listener(onSuccess = { _, _ -> Anim.slideIn(heroImage) }, onError = { _, _ -> Anim.slideIn(heroImage) })
@@ -103,6 +103,24 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             heroTask = task
             handler.postDelayed(task, HERO_DELAY_MS)
         }
+        // Полоса прокрутки: высота и положение ползунка по смещению сетки
+        val track = view.findViewById<View>(R.id.scroll_track)
+        val thumb = view.findViewById<View>(R.id.scroll_thumb)
+        val updateThumb = {
+            val range = grid.computeVerticalScrollRange()
+            val extent = grid.computeVerticalScrollExtent()
+            val h = track.height
+            if (range <= extent || h == 0) thumb.visibility = View.INVISIBLE else {
+                thumb.visibility = View.VISIBLE
+                val size = maxOf(h * extent / range, (24 * resources.displayMetrics.density).toInt())
+                thumb.layoutParams = thumb.layoutParams.apply { height = size }
+                thumb.translationY = (h - size) * grid.computeVerticalScrollOffset().toFloat() / (range - extent)
+            }
+        }
+        grid.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) = updateThumb()
+        })
+        grid.post(updateThumb)
         grid.adapter = ShowAdapter(shows, COLUMNS, settings, onFocus, { entering }) { show, image ->
             ShowActivity.open(requireActivity(), show, image)
         }
@@ -192,7 +210,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             for (i in 0 until frame.childCount) {
                 val child = frame.getChildAt(i)
                 if (isEntering() && pos != RecyclerView.NO_POSITION) {
-                    Anim.enter(child, delayMs = (pos % columns + pos / columns) * 60L, dyDp = 30f, durationMs = 380)
+                    Anim.enter(child, delayMs = (pos % columns + pos / columns) * 60L, dyDp = 20f, durationMs = 380)
                 } else Anim.reset(child)
             }
         }
