@@ -14,7 +14,7 @@
 - `app/src/main/java/ru/sharl0t/utvplayer/data/UtvApi.kt`: разбор сайта: передачи, сезоны и серии, адрес master.m3u8
 - `app/src/main/java/ru/sharl0t/utvplayer/data/Models.kt`: Show, Season, Episode (номер, героиня, город), ShowDetails
 - `app/src/main/java/ru/sharl0t/utvplayer/data/EpisodeText.kt`: разбор подписей серий: номер, описание, героиня и город
-- `app/src/main/java/ru/sharl0t/utvplayer/ui/LoadActivity.kt`: база экранов: загрузка, крутилка, ошибка с «Повторить»
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/LoadActivity.kt`: база экранов: загрузка (мигающий квадрат «Ю»), ошибка с «Повторить»
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/MessageFragment.kt`: сообщение на весь экран с кнопкой «Повторить» или «Назад»
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/CardPresenter.kt`: карточки передач и серий с картинками (Coil)
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/MainActivity.kt`: каталог: загрузка через LoadActivity, содержимое `MainFragment`

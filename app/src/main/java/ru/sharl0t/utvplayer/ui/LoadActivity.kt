@@ -33,6 +33,7 @@ abstract class LoadActivity<T> : FragmentActivity() {
         job?.cancel()
         supportFragmentManager.findFragmentById(R.id.content)?.let { supportFragmentManager.commit { remove(it) } }
         progress.visibility = View.VISIBLE
+        pulse(0.4f)
         job = lifecycleScope.launch {
             val fragment = try {
                 contentFragment(load())
@@ -43,9 +44,16 @@ abstract class LoadActivity<T> : FragmentActivity() {
             }
             // Фрагмент можно ставить только на видимый экран, иначе транзакция падает после onSaveInstanceState
             withStarted {
+                progress.animate().cancel()
                 progress.visibility = View.GONE
                 supportFragmentManager.commit { replace(R.id.content, fragment) }
             }
         }
+    }
+
+    /** Мягкое мигание квадрата «Ю»: только альфа, приставка слабая. */
+    private fun pulse(to: Float) {
+        progress.animate().alpha(to).setDuration(700)
+            .withEndAction { pulse(if (to < 1f) 1f else 0.4f) }.start()
     }
 }

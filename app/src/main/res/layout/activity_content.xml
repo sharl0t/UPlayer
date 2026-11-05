@@ -8,11 +8,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <ProgressBar
+    <!-- Загрузка: квадрат «Ю», мягко мигает (анимация в LoadActivity) -->
+    <TextView
         android:id="@+id/progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         android:layout_gravity="center"
+        android:background="@drawable/logo_square"
+        android:gravity="center"
+        android:text="Ю"
+        android:textColor="@color/letter"
+        android:textSize="60sp"
+        android:textStyle="bold"
         android:visibility="gone" />
 </FrameLayout>
