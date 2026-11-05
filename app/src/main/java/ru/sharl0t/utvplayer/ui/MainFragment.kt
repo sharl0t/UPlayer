@@ -2,6 +2,8 @@ package ru.sharl0t.utvplayer.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.graphics.Outline
 import android.view.KeyEvent
@@ -22,6 +24,8 @@ import ru.sharl0t.utvplayer.data.Show
 /** Главный экран: шапка, верхний блок и сетка передач на 6 колонок. */
 class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var shows: List<Show>
+    private val handler = Handler(Looper.getMainLooper())
+    private var heroTask: Runnable? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.findViewById<TextView>(R.id.count).text = plural(shows.size)
@@ -44,8 +48,33 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val gap = (27 * resources.displayMetrics.density).toInt()
         grid.setHorizontalSpacing(gap)
         grid.setVerticalSpacing(gap)
-        grid.adapter = ShowAdapter(shows, COLUMNS, settings) { startActivity(ShowActivity.intent(requireContext(), it)) }
+        val heroImage = view.findViewById<ImageView>(R.id.hero_image)
+        val heroTitle = view.findViewById<TextView>(R.id.hero_title)
+        val heroBar = view.findViewById<View>(R.id.hero_bar)
+        val heroPos = view.findViewById<TextView>(R.id.hero_pos)
+        // Верхний блок обновляется через 260 мс после фокуса: при быстрой прокрутке лишние картинки не грузятся
+        val onFocus: (Int) -> Unit = { position ->
+            heroTask?.let { handler.removeCallbacks(it) }
+            val task = Runnable {
+                val show = shows[position]
+                heroImage.load(show.imageUrl)
+                heroTitle.text = show.title
+                heroBar.visibility = View.VISIBLE
+                heroPos.text = "${position + 1} из ${shows.size}"
+            }
+            heroTask = task
+            handler.postDelayed(task, HERO_DELAY_MS)
+        }
+        grid.adapter = ShowAdapter(shows, COLUMNS, settings, onFocus) {
+            startActivity(ShowActivity.intent(requireContext(), it))
+        }
         grid.post { grid.requestFocus() }
+    }
+
+    override fun onDestroyView() {
+        heroTask?.let { handler.removeCallbacks(it) }
+        heroTask = null
+        super.onDestroyView()
     }
 
     private fun plural(n: Int): String {
@@ -62,9 +91,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         private val items: List<Show>,
         private val columns: Int,
         private val settings: View,
+        private val onFocus: (Int) -> Unit,
         private val onClick: (Show) -> Unit,
     ) : RecyclerView.Adapter<ShowAdapter.Holder>() {
-        class Holder(view: View) : RecyclerView.ViewHolder(view) {
+        class Holder(view: View, onFocus: (Int) -> Unit) : RecyclerView.ViewHolder(view) {
             val image: ImageView = view.findViewById(R.id.image)
             val name: TextView = view.findViewById(R.id.name)
 
@@ -82,6 +112,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     v.translationY = if (focused) -lift else 0f
                     // Бегущая строка у длинного названия работает только у выделенного TextView
                     name.isSelected = focused
+                    if (focused && adapterPosition != RecyclerView.NO_POSITION) onFocus(adapterPosition)
                 }
             }
 
@@ -95,7 +126,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            Holder(LayoutInflater.from(parent.context).inflate(R.layout.item_show, parent, false))
+            Holder(LayoutInflater.from(parent.context).inflate(R.layout.item_show, parent, false), onFocus)
 
         override fun onBindViewHolder(holder: Holder, position: Int) {
             val show = items[position]
@@ -117,6 +148,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     companion object {
         private const val COLUMNS = 6
+        private const val HERO_DELAY_MS = 260L
 
         fun create(shows: List<Show>) = MainFragment().also { it.shows = shows }
     }

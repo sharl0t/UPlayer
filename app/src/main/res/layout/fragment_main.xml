@@ -59,7 +59,7 @@
             android:src="@drawable/ic_settings_dark" />
     </LinearLayout>
 
-    <!-- Верхний блок выбранной передачи: данные подставит задача 10.7 -->
+    <!-- Верхний блок выбранной передачи (заполняет MainFragment) -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="257dp"
