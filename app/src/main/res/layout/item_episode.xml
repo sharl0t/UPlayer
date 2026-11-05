@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Карточка серии 16:9, 264x149dp (макет 352x198); длительность и рамку доводит 10.12 -->
+<!-- Карточка серии 16:9, 264x149dp (макет 352x198) -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="264dp"
     android:layout_height="wrap_content"
@@ -20,6 +20,20 @@
             android:background="@color/dark"
             android:importantForAccessibility="no"
             android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/ep_card_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="8dp"
+            android:background="@drawable/duration_badge"
+            android:paddingStart="8dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/text"
+            android:textSize="13sp" />
 
         <View
             android:layout_width="match_parent"

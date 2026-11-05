@@ -2,6 +2,7 @@ package ru.sharl0t.utvplayer.ui
 
 import android.graphics.Outline
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -125,6 +126,7 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
         class Holder(view: View) : RecyclerView.ViewHolder(view) {
             val image: ImageView = view.findViewById(R.id.ep_card_image)
             val name: TextView = view.findViewById(R.id.ep_card_name)
+            val duration: TextView = view.findViewById(R.id.ep_card_duration)
 
             init {
                 val radius = view.resources.getDimension(R.dimen.card_radius)
@@ -147,7 +149,16 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
         override fun onBindViewHolder(holder: Holder, position: Int) {
             val ep = items[position]
             holder.name.text = ep.title
+            holder.duration.text = ep.duration.orEmpty()
+            holder.duration.visibility = if (ep.duration.isNullOrEmpty()) View.GONE else View.VISIBLE
             holder.image.load(ep.imageUrl)
+            // С первой серии влево фокус уходит на колонку сезонов
+            holder.itemView.setOnKeyListener { v, code, event ->
+                val first = holder.adapterPosition == 0
+                if (first && code == KeyEvent.KEYCODE_DPAD_LEFT && event.action == KeyEvent.ACTION_DOWN) {
+                    (v.rootView.findViewById<View>(R.id.seasons)).requestFocus()
+                } else false
+            }
             holder.itemView.setOnClickListener { onClick(ep) }
             holder.itemView.setOnFocusChangeListener { _, focused -> if (focused) onFocus(ep) }
         }
