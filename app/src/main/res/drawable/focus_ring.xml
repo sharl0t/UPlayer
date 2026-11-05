@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Рамка фокуса вокруг картинки: только обводка, без заливки -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <corners android:radius="@dimen/focus_ring_radius" />
-    <stroke
-        android:width="@dimen/focus_ring_width"
-        android:color="@color/focus" />
-</shape>
+<!-- Рамка фокуса вокруг картинки: только обводка; рисуется на отступ наружу от картинки (отрицательные отступы слоя: отрицательный layout_margin не растягивает вид) -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:left="@dimen/focus_ring_gap_neg"
+        android:top="@dimen/focus_ring_gap_neg"
+        android:right="@dimen/focus_ring_gap_neg"
+        android:bottom="@dimen/focus_ring_gap_neg">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/focus_ring_radius" />
+            <stroke
+                android:width="@dimen/focus_ring_width"
+                android:color="@color/focus" />
+        </shape>
+    </item>
+</layer-list>

@@ -39,7 +39,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/focus_ring_gap_neg"
             android:background="@drawable/focus_ring_selector"
             android:duplicateParentState="true" />
     </FrameLayout>
