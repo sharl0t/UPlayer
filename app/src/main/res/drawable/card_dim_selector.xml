@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Затемнение картинки: в фокусе нет, без фокуса 28% чёрного (макет) -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:drawable="@android:color/transparent" />
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#47000000" />
+        </shape>
+    </item>
+</selector>

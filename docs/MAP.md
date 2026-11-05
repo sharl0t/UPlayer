@@ -29,8 +29,9 @@
 - `app/src/main/res/raw/extra_roots.pem`: корни GlobalSign R46, R3, ISRG X1, X2
 - `app/src/main/res/values/`: строки, цвета (палитра логотипа, `colors.xml`), тема Leanback (кнопка-шар заголовка с шестерёнкой) и чёрная тема плеера
 - `app/src/main/res/values/dimens.xml`: размеры фокуса: толщина и отступ рамки, скругления карточки и плашки, подъём
-- `app/src/main/res/drawable/focus_ring.xml`, `focus_ring_selector.xml`, `focus_plate_selector.xml`, `logo_square.xml`, `gear_button.xml`: квадрат «Ю» и кнопка настроек в шапке, рамка фокуса вокруг картинки, светлая плашка в фокусе (селекторы по состоянию)
+- `app/src/main/res/drawable/focus_ring.xml`, `focus_ring_selector.xml`, `focus_plate_selector.xml`, `card_dim_selector.xml`, `logo_square.xml`, `gear_button.xml`: квадрат «Ю» и кнопка настроек в шапке, рамка фокуса вокруг картинки, светлая плашка в фокусе (селекторы по состоянию)
 - `app/src/main/res/color/text_focus_selector.xml`: цвет текста: тёмный в фокусе, светлый без фокуса
+- `app/src/main/res/color/text_focus_name.xml`: цвет названия карточки: яркий в фокусе, приглушённый без
 - `app/src/main/res/drawable*/`, `mipmap-*/`: баннер 320x180, иконка «Ю» (из `ICO.jpg`), шестерёнка `ic_quality` (качество и настройки, светлая на тёмном) и `ic_settings_dark` (тёмная для кнопки в шапке на светлой плашке)
 - `docs/logo.jpg`: логотип для README (уменьшенный `ICO.jpg`)
 - `app/src/test/java/ru/sharl0t/utvplayer/data/LiveSiteTest.kt`: проверка разбора на живом сайте (UTV_LIVE=1)

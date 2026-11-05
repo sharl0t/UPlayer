@@ -1,17 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Карточка передачи: картинка 194x166dp (макет 258x221) и название; рамка и подъём в 10.5 -->
+<!-- Карточка передачи: картинка 194x166dp (макет 258x221), затемнение без фокуса, рамка в фокусе, название.
+     Подъём и бегущая строка включаются из MainFragment по фокусу -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="194dp"
     android:layout_height="wrap_content"
+    android:clipChildren="false"
     android:focusable="true"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/image"
+    <FrameLayout
         android:layout_width="194dp"
         android:layout_height="166dp"
-        android:background="@color/dark"
-        android:scaleType="centerCrop" />
+        android:clipChildren="false">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/dark"
+            android:scaleType="centerCrop" />
+
+        <!-- Затемнение карточек без фокуса: состояние берёт у карточки -->
+        <View
+            android:id="@+id/dim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/card_dim_selector"
+            android:duplicateParentState="true" />
+
+        <!-- Рамка фокуса вокруг картинки, отступ наружу -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/focus_ring_gap_neg"
+            android:background="@drawable/focus_ring_selector"
+            android:duplicateParentState="true" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/name"
@@ -19,8 +43,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="27dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textColor="@color/text"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:textColor="@color/text_focus_name"
         android:textSize="17sp" />
 </LinearLayout>

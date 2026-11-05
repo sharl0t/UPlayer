@@ -4,6 +4,7 @@
     <!-- Рамка фокуса: толщина и отступ от картинки наружу -->
     <dimen name="focus_ring_width">6dp</dimen>
     <dimen name="focus_ring_gap">9dp</dimen>
+    <dimen name="focus_ring_gap_neg">-9dp</dimen>
     <!-- Скругление картинки карточки и внешнее скругление рамки (картинка + отступ) -->
     <dimen name="card_radius">14dp</dimen>
     <dimen name="focus_ring_radius">23dp</dimen>

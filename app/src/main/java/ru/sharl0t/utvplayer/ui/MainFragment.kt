@@ -3,7 +3,9 @@ package ru.sharl0t.utvplayer.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.graphics.Outline
 import android.view.View
+import android.view.ViewOutlineProvider
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -25,6 +27,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             startActivity(Intent(requireContext(), SettingsActivity::class.java))
         }
         val grid = view.findViewById<VerticalGridView>(R.id.grid)
+        val gap = (27 * resources.displayMetrics.density).toInt()
+        grid.setHorizontalSpacing(gap)
+        grid.setVerticalSpacing(gap)
         grid.adapter = ShowAdapter(shows) { startActivity(ShowActivity.intent(requireContext(), it)) }
     }
 
@@ -45,6 +50,31 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         class Holder(view: View) : RecyclerView.ViewHolder(view) {
             val image: ImageView = view.findViewById(R.id.image)
             val name: TextView = view.findViewById(R.id.name)
+
+            init {
+                // Скругление картинки
+                val radius = view.resources.getDimension(R.dimen.card_radius)
+                image.outlineProvider = object : ViewOutlineProvider() {
+                    override fun getOutline(v: View, outline: Outline) =
+                        outline.setRoundRect(0, 0, v.width, v.height, radius)
+                }
+                image.clipToOutline = true
+                dimOutline(view.findViewById(R.id.dim), radius)
+                val lift = view.resources.getDimension(R.dimen.focus_lift)
+                view.setOnFocusChangeListener { v, focused ->
+                    v.translationY = if (focused) -lift else 0f
+                    // Бегущая строка у длинного названия работает только у выделенного TextView
+                    name.isSelected = focused
+                }
+            }
+
+            private fun dimOutline(dim: View, radius: Float) {
+                dim.outlineProvider = object : ViewOutlineProvider() {
+                    override fun getOutline(v: View, outline: Outline) =
+                        outline.setRoundRect(0, 0, v.width, v.height, radius)
+                }
+                dim.clipToOutline = true
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
