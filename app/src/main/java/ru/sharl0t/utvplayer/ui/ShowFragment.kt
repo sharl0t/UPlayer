@@ -2,6 +2,8 @@ package ru.sharl0t.utvplayer.ui
 
 import android.graphics.Outline
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +28,10 @@ import ru.sharl0t.utvplayer.data.ShowDetails
 class ShowFragment : Fragment(R.layout.fragment_show) {
     private lateinit var details: ShowDetails
     private lateinit var onPlay: (seasonTitle: String, Episode) -> Unit
+    private val handler = Handler(Looper.getMainLooper())
+    // Первые ~секунду после открытия серии выезжают волной справа
+    private var entering = true
+    private var firstEpisode = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val total = details.seasons.sumOf { it.episodes.size }
@@ -44,7 +50,11 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
             return
         }
         var current = 0
+        // Сезоны выезжают слева
+        seasons.post { Anim.enter(seasons, dxDp = -60f, durationMs = 380) }
+        handler.postDelayed({ entering = false }, 1400)
         val episodeAdapter = EpisodeAdapter(
+            isEntering = { entering },
             onFocus = { showEpisode(view, details.seasons[current].title, it, watchable = true) },
             onClick = { onPlay(details.seasons[current].title, it) },
         )
@@ -61,9 +71,21 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
         seasons.post { seasons.requestFocus() }
     }
 
+    override fun onDestroyView() {
+        handler.removeCallbacksAndMessages(null)
+        super.onDestroyView()
+    }
+
     // watchable: фокус на серии, подсказка «OK смотреть» уместна; на сезоне её прячем (OK там ничего не запускает)
     private fun showEpisode(view: View, season: String, ep: Episode, watchable: Boolean) {
-        view.findViewById<ImageView>(R.id.ep_image).load(ep.imageUrl) { crossfade(150) }
+        val image = view.findViewById<ImageView>(R.id.ep_image)
+        val text = view.findViewById<View>(R.id.ep_text)
+        if (firstEpisode) firstEpisode = false else {
+            // Картинка приезжает справа, текст поднимается снизу
+            Anim.slideIn(image)
+            Anim.enter(text, delayMs = 60, dyDp = 18f, durationMs = 260)
+        }
+        image.load(ep.imageUrl)
         view.findViewById<View>(R.id.ep_hint).visibility = if (watchable) View.VISIBLE else View.INVISIBLE
         view.findViewById<TextView>(R.id.ep_num).text = ep.number?.let { "$it серия" } ?: ep.title
         val who = if (ep.heroine != null) listOfNotNull(ep.heroine, ep.city).joinToString(", ") else ep.description
@@ -128,6 +150,7 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
     }
 
     private class EpisodeAdapter(
+        private val isEntering: () -> Boolean,
         private val onFocus: (Episode) -> Unit,
         private val onClick: (Episode) -> Unit,
     ) : RecyclerView.Adapter<EpisodeAdapter.Holder>() {
@@ -174,6 +197,14 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
         }
 
         override fun onViewRecycled(holder: Holder) = holder.image.dispose()
+
+        // Волна справа: каждая следующая карточка чуть позже
+        override fun onViewAttachedToWindow(holder: Holder) {
+            val pos = holder.adapterPosition
+            if (isEntering() && pos != RecyclerView.NO_POSITION) {
+                Anim.enter(holder.itemView, delayMs = pos * 70L, dxDp = 80f, durationMs = 380)
+            } else Anim.reset(holder.itemView)
+        }
 
         override fun getItemCount() = items.size
     }

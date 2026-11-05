@@ -1,5 +1,6 @@
 package ru.sharl0t.utvplayer.ui
 
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -26,13 +27,26 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var shows: List<Show>
     private val handler = Handler(Looper.getMainLooper())
     private var heroTask: Runnable? = null
+    // Первые ~секунду после запуска карточки выезжают волной
+    private var entering = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.findViewById<TextView>(R.id.count).text = plural(shows.size)
+        val count = view.findViewById<TextView>(R.id.count)
+        // Счётчик передач набегает от нуля
+        ValueAnimator.ofInt(0, shows.size).apply {
+            duration = 700
+            addUpdateListener { count.text = plural(it.animatedValue as Int) }
+        }.start()
+        entering = true
+        handler.postDelayed({ entering = false }, ENTER_WINDOW_MS)
         val grid = view.findViewById<VerticalGridView>(R.id.grid)
         val settings = view.findViewById<View>(R.id.settings)
         settings.setOnClickListener {
             startActivity(Intent(requireContext(), SettingsActivity::class.java))
+        }
+        // На шестерёнке в фокусе значок поворачивается
+        settings.setOnFocusChangeListener { v, focused ->
+            v.animate().rotation(if (focused) 90f else 0f).setDuration(250).start()
         }
         // Вниз с шестерёнки: на карточку, где фокус был до этого (сетка помнит выбранную позицию)
         settings.setOnKeyListener { _, keyCode, event ->
@@ -71,22 +85,32 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             heroTask?.let { handler.removeCallbacks(it) }
             val task = Runnable {
                 val show = shows[position]
-                heroImage.load(show.imageUrl)
                 setBackground(show.imageUrl)
-                heroTitle.text = show.title
-                heroBar.visibility = View.VISIBLE
-                heroPos.text = "${position + 1} из ${shows.size}"
+                // Картинка уезжает, на её месте приезжает новая; текст поднимается снизу, черта растёт
+                val swap: () -> Unit = {
+                    heroTitle.text = show.title
+                    heroPos.text = "${position + 1} из ${shows.size}"
+                    heroBar.visibility = View.VISIBLE
+                    Anim.enter(heroTitle, dyDp = 18f)
+                    Anim.enter(heroPos, delayMs = 80, dyDp = 18f)
+                    Anim.stretch(heroBar, delayMs = 60)
+                    heroImage.load(show.imageUrl) {
+                        listener(onSuccess = { _, _ -> Anim.slideIn(heroImage) }, onError = { _, _ -> Anim.slideIn(heroImage) })
+                    }
+                }
+                if (heroBar.visibility == View.VISIBLE) Anim.slideOut(heroImage, swap) else swap()
             }
             heroTask = task
             handler.postDelayed(task, HERO_DELAY_MS)
         }
-        grid.adapter = ShowAdapter(shows, COLUMNS, settings, onFocus) {
+        grid.adapter = ShowAdapter(shows, COLUMNS, settings, onFocus, { entering }) {
             startActivity(ShowActivity.intent(requireContext(), it))
         }
         grid.post { grid.requestFocus() }
     }
 
     override fun onDestroyView() {
+        handler.removeCallbacksAndMessages(null)
         heroTask?.let { handler.removeCallbacks(it) }
         heroTask = null
         super.onDestroyView()
@@ -107,6 +131,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         private val columns: Int,
         private val settings: View,
         private val onFocus: (Int) -> Unit,
+        private val isEntering: () -> Boolean,
         private val onClick: (Show) -> Unit,
     ) : RecyclerView.Adapter<ShowAdapter.Holder>() {
         class Holder(view: View, onFocus: (Int) -> Unit) : RecyclerView.ViewHolder(view) {
@@ -124,7 +149,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 dimOutline(view.findViewById(R.id.dim), radius)
                 val lift = view.resources.getDimension(R.dimen.focus_lift)
                 view.setOnFocusChangeListener { v, focused ->
-                    v.translationY = if (focused) -lift else 0f
+                    Anim.lift(v, focused, lift)
                     // Бегущая строка у длинного названия работает только у выделенного TextView
                     name.isSelected = focused
                     if (focused && adapterPosition != RecyclerView.NO_POSITION) onFocus(adapterPosition)
@@ -158,6 +183,18 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         override fun onViewRecycled(holder: Holder) = holder.image.dispose()
 
+        // Волна: картинка и название появляются по диагонали (колонка + ряд), подъём фокуса на самой карточке не мешает
+        override fun onViewAttachedToWindow(holder: Holder) {
+            val pos = holder.adapterPosition
+            val frame = (holder.itemView as ViewGroup)
+            for (i in 0 until frame.childCount) {
+                val child = frame.getChildAt(i)
+                if (isEntering() && pos != RecyclerView.NO_POSITION) {
+                    Anim.enter(child, delayMs = (pos % columns + pos / columns) * 60L, dyDp = 30f, durationMs = 380)
+                } else Anim.reset(child)
+            }
+        }
+
         override fun getItemCount() = items.size
     }
 
@@ -166,6 +203,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         private const val HERO_DELAY_MS = 260L
         private const val BG_ALPHA = 0.35f
         private const val BG_FADE_MS = 600L
+        private const val ENTER_WINDOW_MS = 1200L
 
         fun create(shows: List<Show>) = MainFragment().also { it.shows = shows }
     }

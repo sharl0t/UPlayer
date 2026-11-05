@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Рамка есть только в фокусе; без фокуса прозрачная -->
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:enterFadeDuration="@android:integer/config_shortAnimTime"
+    android:exitFadeDuration="@android:integer/config_shortAnimTime">
     <item android:state_focused="true" android:drawable="@drawable/focus_ring" />
     <item android:drawable="@android:color/transparent" />
 </selector>

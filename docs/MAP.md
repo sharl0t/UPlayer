@@ -16,6 +16,7 @@
 - `app/src/main/java/ru/sharl0t/utvplayer/data/EpisodeText.kt`: разбор подписей серий: номер, описание, героиня и город
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/LoadActivity.kt`: база экранов: загрузка (мигающий квадрат «Ю»), ошибка с «Повторить»
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/MessageFragment.kt`: сообщение на весь экран с кнопкой «Повторить» или «Назад»
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/Anim.kt`: лёгкие анимации на ViewPropertyAnimator: появление, черта, смена картинки, подъём
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/CardPresenter.kt`: карточки передач и серий с картинками (Coil)
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/MainActivity.kt`: каталог: загрузка через LoadActivity, содержимое `MainFragment`
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/MainFragment.kt`: главный экран: шапка, верхний блок, сетка передач на 6 колонок (VerticalGridView)
