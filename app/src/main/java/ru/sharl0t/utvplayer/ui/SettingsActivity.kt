@@ -20,6 +20,8 @@ class SettingsActivity : FragmentActivity() {
 }
 
 class SettingsFragment : GuidedStepSupportFragment() {
+    override fun onProvideTheme() = R.style.SettingsTheme
+
     override fun onCreateGuidanceStylist() = object : GuidanceStylist() {
         override fun onProvideLayoutId() = R.layout.settings_guidance
     }

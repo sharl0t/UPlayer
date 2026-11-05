@@ -12,6 +12,15 @@
         <item name="searchOrbColor">@color/plate</item>
     </style>
 
+    <!-- Настройки (GuidedStep): фон и пункты в палитре логотипа, фокус светлой плашкой с рамкой -->
+    <style name="SettingsTheme" parent="Theme.Leanback.GuidedStep">
+        <item name="android:colorAccent">@color/focus</item>
+        <item name="guidedStepBackground">@color/brand</item>
+        <item name="guidedActionsBackground">@color/dark</item>
+        <item name="guidedActionsBackgroundDark">@color/dark</item>
+        <item name="guidedActionsSelectorDrawable">@drawable/guided_selector</item>
+    </style>
+
     <!-- Плеер: чёрный фон по краям видео -->
     <style name="PlayerTheme" parent="AppTheme">
         <item name="android:windowBackground">@android:color/black</item>

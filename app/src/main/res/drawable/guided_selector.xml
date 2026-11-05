@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Пункт настроек в фокусе: светлая плашка и тонкая рамка; без фокуса прозрачный -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/plate_radius" />
+            <solid android:color="#33e4e5e8" />
+            <stroke
+                android:width="3dp"
+                android:color="@color/focus" />
+        </shape>
+    </item>
+    <item android:drawable="@android:color/transparent" />
+</selector>
