@@ -11,7 +11,9 @@
 
     <!-- Экран передачи: картинка карточки разворачивается на весь экран (ShowActivity.open) -->
     <style name="ShowTheme" parent="AppTheme">
-        <item name="android:windowEnterTransition">@transition/show_fade</item>
+        <!-- Без общего затухания на входе: фреймворк иначе сам прячет и показывает «Ю» и содержимое
+             и спорит с LoadActivity. Содержимое проявляет ShowActivity.onContentShown -->
+        <item name="android:windowEnterTransition">@null</item>
         <item name="android:windowReturnTransition">@transition/show_fade</item>
         <item name="android:windowSharedElementEnterTransition">@transition/show_sheet</item>
         <item name="android:windowSharedElementReturnTransition">@transition/show_sheet</item>

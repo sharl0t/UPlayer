@@ -1,7 +1,6 @@
 package ru.sharl0t.utvplayer.ui
 
 import android.app.Activity
-import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -30,6 +29,7 @@ class ShowActivity : LoadActivity<ShowDetails>() {
     /** Картинка ещё разворачивается: содержимое ждёт конца, чтобы не мелькнуть под ней. */
     private var opening = false
     private var afterOpen: (() -> Unit)? = null
+    private var contentShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +63,8 @@ class ShowActivity : LoadActivity<ShowDetails>() {
         val transition = window.sharedElementEnterTransition ?: return
         if (!firstStart) return
         opening = true
+        // «Ю» не мелькает над каталогом до разворота: появится после него, если передача ещё грузится
+        findViewById<View>(R.id.progress).visibility = View.INVISIBLE
         transition.addListener(object : Transition.TransitionListener {
             override fun onTransitionEnd(t: Transition) = opened()
             override fun onTransitionCancel(t: Transition) = opened()
@@ -75,12 +77,15 @@ class ShowActivity : LoadActivity<ShowDetails>() {
     }
 
     private fun opened() {
+        if (!opening) return
         opening = false
+        if (!contentShown) findViewById<View>(R.id.progress).visibility = View.VISIBLE
         afterOpen?.invoke()
         afterOpen = null
     }
 
     override fun onContentShown(content: View) {
+        contentShown = true
         if (!intent.getBooleanExtra(EXTRA_SHEET, false)) return
         // Поверх развёрнутой картинки содержимое проявляется, как .showscr в макете
         content.animate().cancel()
@@ -104,12 +109,11 @@ class ShowActivity : LoadActivity<ShowDetails>() {
 
         /**
          * Открыть передачу, развернув картинку карточки на весь экран.
-         * Без картинки и на слабых приставках (isLowRamDevice) открывается как обычно.
+         * Без картинки открывается как обычно.
          */
         fun open(activity: Activity, show: Show, image: ImageView) {
             val intent = intent(activity, show)
-            val lowRam = (activity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).isLowRamDevice
-            if (lowRam || image.drawable == null || !image.isAttachedToWindow) {
+            if (image.drawable == null || !image.isAttachedToWindow) {
                 activity.startActivity(intent)
                 return
             }
