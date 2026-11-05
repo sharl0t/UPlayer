@@ -24,5 +24,20 @@
     <!-- Плеер: чёрный фон по краям видео -->
     <style name="PlayerTheme" parent="AppTheme">
         <item name="android:windowBackground">@android:color/black</item>
+        <!-- Панель, полоса прокрутки и подсветка кнопок в палитре логотипа -->
+        <item name="defaultBrandColor">@color/dark</item>
+        <item name="defaultBrandColorDark">@color/dark</item>
+        <item name="playbackProgressPrimaryColor">@color/focus</item>
+        <item name="playbackProgressSecondaryColor">#66c6c7cb</item>
+        <item name="playbackControlsIconHighlightColor">@color/focus</item>
+        <item name="android:alertDialogTheme">@style/PlayerDialog</item>
+    </style>
+
+    <!-- Выбор качества: тёмный диалог с плашкой в цвете логотипа -->
+    <style name="PlayerDialog" parent="android:Theme.Material.Dialog.Alert">
+        <item name="android:colorBackground">@color/brand</item>
+        <item name="android:colorAccent">@color/focus</item>
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorSecondary">@color/plate</item>
     </style>
 </resources>

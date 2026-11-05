@@ -30,7 +30,7 @@
 - `app/src/main/res/layout/settings_guidance.xml`: левая часть настроек: lb_guidance и ряд QR-кодов
 - `app/src/main/res/drawable-nodpi/qr_site.png`, `qr_telegram.png`: карточки QR (делает `tools/qr-cards.py`)
 - `app/src/main/res/raw/extra_roots.pem`: корни GlobalSign R46, R3, ISRG X1, X2
-- `app/src/main/res/values/`: строки, цвета (палитра логотипа, `colors.xml`), тема Leanback (кнопка-шар заголовка с шестерёнкой), `SettingsTheme` для настроек и чёрная тема плеера
+- `app/src/main/res/values/`: строки, цвета (палитра логотипа, `colors.xml`), тема Leanback (кнопка-шар заголовка с шестерёнкой), `SettingsTheme` для настроек, тема плеера и диалога качества и чёрная тема плеера
 - `app/src/main/res/values/dimens.xml`: размеры фокуса: толщина и отступ рамки, скругления карточки и плашки, подъём
 - `app/src/main/res/drawable/focus_ring.xml`, `focus_ring_selector.xml`, `focus_plate_selector.xml`, `season_bg_selector.xml`, `season_bar_selector.xml`, `card_dim_selector.xml`, `logo_square.xml`, `gear_button.xml`, `bg_shade_side.xml`, `bg_shade_bottom.xml`, `duration_badge.xml`, `guided_selector.xml`: квадрат «Ю» и кнопка настроек в шапке, рамка фокуса вокруг картинки, светлая плашка в фокусе, плашка и черта выбранного сезона (селекторы по состоянию), затемнение фона главного экрана слева и снизу, плашка длительности на карточке серии, пункт настроек в фокусе
 - `app/src/main/res/color/text_focus_selector.xml`: цвет текста: тёмный в фокусе, светлый без фокуса
