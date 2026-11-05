@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Экран передачи по design/main-screen.html (.showscr). Размеры макета ×0.75 в dp -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/brand">
+
+    <!-- Шапка: «Ю», название, «N сезонов · M серий», подсказка «Назад» -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="72dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@drawable/logo_square"
+            android:gravity="center"
+            android:text="Ю"
+            android:textColor="@color/letter"
+            android:textSize="27sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/show_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/text"
+            android:textSize="33sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/show_meta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textColor="@color/plate"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_back_hint"
+            android:textColor="@color/plate"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!-- Колонка сезонов слева -->
+    <androidx.leanback.widget.VerticalGridView
+        android:id="@+id/seasons"
+        android:layout_width="255dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="120dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:nextFocusRight="@id/episodes" />
+
+    <!-- Блок выбранной серии: картинка и текст -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        android:layout_marginStart="375dp"
+        android:layout_marginTop="112dp"
+        android:layout_marginEnd="72dp">
+
+        <ImageView
+            android:id="@+id/ep_image"
+            android:layout_width="480dp"
+            android:layout_height="270dp"
+            android:background="@color/dark"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="525dp"
+            android:layout_marginTop="26dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/ep_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text"
+                android:textSize="51sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ep_who"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:maxLines="3"
+                android:textColor="@color/text"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/ep_meta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:textColor="@color/plate"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/ep_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="33dp"
+                android:text="@string/ep_watch_hint"
+                android:textColor="@color/plate"
+                android:textSize="17sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Ряд серий -->
+    <androidx.leanback.widget.HorizontalGridView
+        android:id="@+id/episodes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="352dp"
+        android:layout_marginTop="417dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:nextFocusLeft="@id/seasons"
+        android:paddingStart="23dp"
+        android:paddingTop="18dp"
+        android:paddingEnd="72dp"
+        app:rowHeight="wrap_content" />
+</FrameLayout>

@@ -4,6 +4,8 @@
     <string name="catalog_title">Телеканал «Ю»</string>
     <string name="retry">Повторить</string>
     <string name="back">Назад</string>
+    <string name="show_back_hint">← Назад: к каталогу</string>
+    <string name="ep_watch_hint">OK смотреть</string>
     <string name="no_episodes">У этой передачи на сайте нет серий</string>
     <string name="load_error">Не удалось загрузить: %1$s</string>
     <string name="play_error">Не удалось воспроизвести: %1$s</string>
