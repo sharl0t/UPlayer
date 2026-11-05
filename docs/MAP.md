@@ -19,8 +19,8 @@
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/CardPresenter.kt`: карточки передач и серий с картинками (Coil)
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/MainActivity.kt`: каталог: загрузка через LoadActivity, содержимое `MainFragment`
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/MainFragment.kt`: главный экран: шапка, верхний блок, сетка передач на 6 колонок (VerticalGridView)
-- `app/src/main/java/ru/sharl0t/utvplayer/ui/ShowActivity.kt`: передача: загрузка через LoadActivity, «серий нет», содержимое `ShowFragment`
-- `app/src/main/java/ru/sharl0t/utvplayer/ui/ShowFragment.kt`: экран передачи: шапка, колонка сезонов, блок серии, ряд серий (VerticalGridView и HorizontalGridView)
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/ShowActivity.kt`: передача: загрузка через LoadActivity, содержимое `ShowFragment`
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/ShowFragment.kt`: экран передачи: шапка, колонка сезонов, блок серии, ряд серий (VerticalGridView и HorizontalGridView); без сезонов вместо них надпись «нет серий»
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/SettingsActivity.kt`: настройки (GuidedStep): переключатель статистики, слева QR-коды сайта и Telegram
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/PlayerActivity.kt`: плеер: загрузка адреса master.m3u8, затем PlayerFragment
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/PlayerFragment.kt`: ExoPlayer в Leanback: пауза, перемотка, «Качество», ошибка, выход в конце, экран не гаснет

@@ -35,6 +35,14 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
 
         val seasons = view.findViewById<VerticalGridView>(R.id.seasons)
         val episodes = view.findViewById<HorizontalGridView>(R.id.episodes)
+        if (details.seasons.isEmpty()) {
+            // Нет ни сезонов, ни серий: шапка остаётся, вместо колонок и блока серии надпись по центру
+            seasons.visibility = View.GONE
+            episodes.visibility = View.GONE
+            view.findViewById<View>(R.id.ep_block).visibility = View.GONE
+            view.findViewById<TextView>(R.id.show_empty).visibility = View.VISIBLE
+            return
+        }
         var current = 0
         val episodeAdapter = EpisodeAdapter(
             onFocus = { showEpisode(view, details.seasons[current].title, it, watchable = true) },

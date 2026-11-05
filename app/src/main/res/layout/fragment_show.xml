@@ -71,6 +71,7 @@
 
     <!-- Блок выбранной серии: картинка и текст -->
     <FrameLayout
+        android:id="@+id/ep_block"
         android:layout_width="match_parent"
         android:layout_height="270dp"
         android:layout_marginStart="375dp"
@@ -142,4 +143,16 @@
         android:paddingTop="18dp"
         android:paddingEnd="72dp"
         app:rowHeight="wrap_content" />
+
+    <!-- Надпись, если у передачи нет серий: по центру под шапкой, скрыта, пока есть сезоны -->
+    <TextView
+        android:id="@+id/show_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="90dp"
+        android:gravity="center"
+        android:text="@string/no_episodes"
+        android:textColor="@color/text"
+        android:textSize="25sp"
+        android:visibility="gone" />
 </FrameLayout>
