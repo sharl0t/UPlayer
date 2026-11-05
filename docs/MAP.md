@@ -2,7 +2,7 @@
 
 - `LICENSE`: лицензия MIT на код
 - `README.md`: для всех: установка и управление; для разработчиков: решения, устройство сайта, сборка
-- `TASKS.md`: задачи и отметки о выполнении
+- `TASKS.md`: задачи и отметки о выполнении (только локально, в .gitignore)
 - `CLAUDE.md`: правила работы для Claude
 - `build.gradle.kts`, `settings.gradle.kts`, `gradle.properties`: настройки Gradle проекта
 - `app/build.gradle.kts`: модуль приложения, зависимости, подпись релиза из `keystore.properties`, запуск LiveSiteTest
