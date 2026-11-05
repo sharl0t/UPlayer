@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Затемнение фона слева направо: слева сплошной цвет, к правому краю картинка гаснет -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="0"
+        android:centerColor="#992a2c31"
+        android:centerX="0.4"
+        android:endColor="#eb2a2c31"
+        android:startColor="#2a2c31" />
+</shape>

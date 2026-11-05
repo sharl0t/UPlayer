@@ -52,12 +52,27 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val heroTitle = view.findViewById<TextView>(R.id.hero_title)
         val heroBar = view.findViewById<View>(R.id.hero_bar)
         val heroPos = view.findViewById<TextView>(R.id.hero_pos)
+        val bgs = arrayOf(view.findViewById<ImageView>(R.id.bg_a), view.findViewById<ImageView>(R.id.bg_b))
+        var bgFront = 0
+        // Фон: новая картинка загружается в скрытый слой и после загрузки плавно проявляется поверх прежней
+        val setBackground = { url: String? ->
+            val next = bgs[1 - bgFront]
+            val prev = bgs[bgFront]
+            next.load(url) {
+                listener(onSuccess = { _, _ ->
+                    next.animate().alpha(BG_ALPHA).setDuration(BG_FADE_MS).start()
+                    prev.animate().alpha(0f).setDuration(BG_FADE_MS).start()
+                    bgFront = 1 - bgFront
+                })
+            }
+        }
         // Верхний блок обновляется через 260 мс после фокуса: при быстрой прокрутке лишние картинки не грузятся
         val onFocus: (Int) -> Unit = { position ->
             heroTask?.let { handler.removeCallbacks(it) }
             val task = Runnable {
                 val show = shows[position]
                 heroImage.load(show.imageUrl)
+                setBackground(show.imageUrl)
                 heroTitle.text = show.title
                 heroBar.visibility = View.VISIBLE
                 heroPos.text = "${position + 1} из ${shows.size}"
@@ -149,6 +164,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     companion object {
         private const val COLUMNS = 6
         private const val HERO_DELAY_MS = 260L
+        private const val BG_ALPHA = 0.35f
+        private const val BG_FADE_MS = 600L
 
         fun create(shows: List<Show>) = MainFragment().also { it.shows = shows }
     }
