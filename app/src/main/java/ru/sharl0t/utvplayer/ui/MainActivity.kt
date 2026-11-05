@@ -1,31 +1,12 @@
 package ru.sharl0t.utvplayer.ui
 
-import android.content.Intent
 import androidx.fragment.app.Fragment
-import androidx.leanback.app.VerticalGridSupportFragment
-import androidx.leanback.widget.ArrayObjectAdapter
-import androidx.leanback.widget.FocusHighlight
-import androidx.leanback.widget.OnItemViewClickedListener
-import androidx.leanback.widget.VerticalGridPresenter
-import ru.sharl0t.utvplayer.R
 import ru.sharl0t.utvplayer.data.Show
 import ru.sharl0t.utvplayer.data.UtvApi
 
-/** Каталог: сетка всех передач, в заголовке кнопка настроек. */
+/** Каталог: свой экран `MainFragment`, загрузка и ошибка из `LoadActivity`. */
 class MainActivity : LoadActivity<List<Show>>() {
     override suspend fun load() = UtvApi.shows()
 
-    override fun contentFragment(data: List<Show>): Fragment = VerticalGridSupportFragment().apply {
-        title = this@MainActivity.getString(R.string.catalog_title)
-        // Кнопка-шар в заголовке (значок из темы, SettingsOrb), фокус на неё вверх из первого ряда
-        setOnSearchClickedListener {
-            startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
-        }
-        gridPresenter = VerticalGridPresenter(FocusHighlight.ZOOM_FACTOR_MEDIUM).apply { numberOfColumns = 5 }
-        // Картинки передач на сайте 720×616
-        adapter = ArrayObjectAdapter(CardPresenter(160, 137)).apply { addAll(0, data) }
-        onItemViewClickedListener = OnItemViewClickedListener { _, item, _, _ ->
-            if (item is Show) startActivity(ShowActivity.intent(this@MainActivity, item))
-        }
-    }
+    override fun contentFragment(data: List<Show>): Fragment = MainFragment.create(data)
 }

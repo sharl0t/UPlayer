@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Главный экран по design/main-screen.html. Размеры макета (1920x1080 px) умножены на 0.75 в dp -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/brand">
+
+    <!-- Шапка -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="72dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/logo_square"
+            android:gravity="center"
+            android:text="Ю"
+            android:textColor="@color/letter"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Player"
+            android:textColor="@color/plate"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="14dp"
+            android:textColor="@color/plate"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/settings"
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:background="@drawable/gear_button"
+            android:contentDescription="@string/settings"
+            android:focusable="true"
+            android:nextFocusDown="@id/grid"
+            android:padding="12dp"
+            android:src="@drawable/ic_settings_dark" />
+    </LinearLayout>
+
+    <!-- Верхний блок выбранной передачи: данные подставит задача 10.7 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="257dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="112dp"
+        android:layout_marginEnd="72dp">
+
+        <ImageView
+            android:id="@+id/hero_image"
+            android:layout_width="300dp"
+            android:layout_height="257dp"
+            android:background="@color/dark"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="348dp"
+            android:layout_marginTop="26dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/hero_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:textColor="@color/text"
+                android:textSize="44sp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/hero_bar"
+                android:layout_width="105dp"
+                android:layout_height="6dp"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="21dp"
+                android:background="@color/plate"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/hero_pos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/plate"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Сетка на 6 колонок, снизу под верхним блоком -->
+    <androidx.leanback.widget.VerticalGridView
+        android:id="@+id/grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="394dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingStart="72dp"
+        android:paddingTop="22dp"
+        android:paddingEnd="72dp"
+        app:columnWidth="194dp"
+        app:numberOfColumns="6"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+</FrameLayout>
