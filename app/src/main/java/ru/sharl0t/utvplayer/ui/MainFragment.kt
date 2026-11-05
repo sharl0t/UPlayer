@@ -58,7 +58,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         grid.windowAlignment = BaseGridView.WINDOW_ALIGN_LOW_EDGE
         grid.windowAlignmentOffsetPercent = 0f
         // Первый ряд ниже верхнего края сетки: запас под рамку, подъём и увеличение, чтобы они не обрезались
-        grid.windowAlignmentOffset = (25 * resources.displayMetrics.density).toInt()
+        grid.windowAlignmentOffset = (38 * resources.displayMetrics.density).toInt()
         grid.itemAlignmentOffsetPercent = 0f
         val gap = (18 * resources.displayMetrics.density).toInt()
         grid.setHorizontalSpacing(gap)
