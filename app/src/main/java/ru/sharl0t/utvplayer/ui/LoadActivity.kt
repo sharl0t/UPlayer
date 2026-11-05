@@ -21,6 +21,9 @@ abstract class LoadActivity<T> : FragmentActivity() {
 
     protected abstract fun contentFragment(data: T): Fragment
 
+    /** Содержимое или ошибка только что поставлены на экран. */
+    protected open fun onContentShown(content: View) {}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Состояние фрагментов не восстанавливаем: после пересоздания экран просто загружается заново
         super.onCreate(null)
@@ -47,6 +50,7 @@ abstract class LoadActivity<T> : FragmentActivity() {
                 progress.animate().cancel()
                 progress.visibility = View.GONE
                 supportFragmentManager.commit { replace(R.id.content, fragment) }
+                onContentShown(findViewById(R.id.content))
             }
         }
     }

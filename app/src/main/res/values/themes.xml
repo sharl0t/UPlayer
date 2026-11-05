@@ -4,6 +4,17 @@
         <item name="android:windowBackground">@color/brand</item>
         <item name="android:colorAccent">@color/focus</item>
         <item name="searchOrbViewStyle">@style/SettingsOrb</item>
+        <!-- Каталог при «развороте» карточки стоит на месте, без затухания -->
+        <item name="android:windowExitTransition">@null</item>
+        <item name="android:windowReenterTransition">@null</item>
+    </style>
+
+    <!-- Экран передачи: картинка карточки разворачивается на весь экран (ShowActivity.open) -->
+    <style name="ShowTheme" parent="AppTheme">
+        <item name="android:windowEnterTransition">@transition/show_fade</item>
+        <item name="android:windowReturnTransition">@transition/show_fade</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/show_sheet</item>
+        <item name="android:windowSharedElementReturnTransition">@transition/show_sheet</item>
     </style>
 
     <!-- Кнопка в заголовке каталога: поиска в приложении нет, на её месте вход в настройки -->

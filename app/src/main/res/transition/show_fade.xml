@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Остальное на экране передачи при «развороте» просто проявляется и гаснет -->
+<fade xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="300" />

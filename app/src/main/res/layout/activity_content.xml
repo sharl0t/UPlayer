@@ -3,6 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Картинка передачи на весь экран: в неё «разворачивается» карточка каталога (ShowActivity.open).
+         Лежит под содержимым, при выходе сворачивается обратно в карточку -->
+    <ImageView
+        android:id="@+id/sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dark"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
+
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"

@@ -29,6 +29,7 @@
         <activity
             android:name=".ui.ShowActivity"
             android:exported="false"
+            android:theme="@style/ShowTheme"
             android:screenOrientation="landscape" />
 
         <activity

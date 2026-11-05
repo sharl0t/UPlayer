@@ -103,8 +103,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             heroTask = task
             handler.postDelayed(task, HERO_DELAY_MS)
         }
-        grid.adapter = ShowAdapter(shows, COLUMNS, settings, onFocus, { entering }) {
-            startActivity(ShowActivity.intent(requireContext(), it))
+        grid.adapter = ShowAdapter(shows, COLUMNS, settings, onFocus, { entering }) { show, image ->
+            ShowActivity.open(requireActivity(), show, image)
         }
         grid.post { grid.requestFocus() }
     }
@@ -132,7 +132,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         private val settings: View,
         private val onFocus: (Int) -> Unit,
         private val isEntering: () -> Boolean,
-        private val onClick: (Show) -> Unit,
+        private val onClick: (Show, ImageView) -> Unit,
     ) : RecyclerView.Adapter<ShowAdapter.Holder>() {
         class Holder(view: View, onFocus: (Int) -> Unit) : RecyclerView.ViewHolder(view) {
             val image: ImageView = view.findViewById(R.id.image)
@@ -172,7 +172,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             val show = items[position]
             holder.name.text = show.title
             holder.image.load(show.imageUrl)
-            holder.itemView.setOnClickListener { onClick(show) }
+            // Имя для «разворота» картинки в экран передачи (ShowActivity.open)
+            holder.image.transitionName = ShowActivity.transitionName(show)
+            holder.itemView.setOnClickListener { onClick(show, holder.image) }
             // Вверх из первого ряда: на шестерёнку
             holder.itemView.setOnKeyListener { _, keyCode, event ->
                 (keyCode == KeyEvent.KEYCODE_DPAD_UP && position < columns).also {

@@ -20,18 +20,19 @@
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/CardPresenter.kt`: карточки передач и серий с картинками (Coil)
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/MainActivity.kt`: каталог: загрузка через LoadActivity, содержимое `MainFragment`
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/MainFragment.kt`: главный экран: шапка, верхний блок, сетка передач на 6 колонок (VerticalGridView)
-- `app/src/main/java/ru/sharl0t/utvplayer/ui/ShowActivity.kt`: передача: загрузка через LoadActivity, содержимое `ShowFragment`
+- `app/src/main/java/ru/sharl0t/utvplayer/ui/ShowActivity.kt`: передача: загрузка через LoadActivity, содержимое `ShowFragment`; `open` разворачивает картинку карточки на весь экран (shared element)
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/ShowFragment.kt`: экран передачи: шапка, колонка сезонов, блок серии, ряд серий (VerticalGridView и HorizontalGridView); без сезонов вместо них надпись «нет серий»
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/SettingsActivity.kt`: настройки (GuidedStep): переключатель статистики, слева QR-коды сайта и Telegram
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/PlayerActivity.kt`: плеер: загрузка адреса master.m3u8, затем PlayerFragment
 - `app/src/main/java/ru/sharl0t/utvplayer/ui/PlayerFragment.kt`: ExoPlayer в Leanback: пауза, перемотка, «Качество», ошибка, выход в конце, экран не гаснет
-- `app/src/main/res/layout/activity_content.xml`: контейнер фрагмента и крутилка
+- `app/src/main/res/layout/activity_content.xml`: картинка-лист для разворота, контейнер фрагмента и крутилка
+- `app/src/main/res/transition/show_sheet.xml`, `show_fade.xml`: разворот картинки карточки в экран передачи и проявление остального
 - `app/src/main/res/layout/fragment_main.xml`, `item_show.xml`: разметка главного экрана и карточка передачи
 - `app/src/main/res/layout/fragment_show.xml`, `item_season.xml`, `item_episode.xml`: разметка экрана передачи, сезон в колонке, карточка серии
 - `app/src/main/res/layout/settings_guidance.xml`: левая часть настроек: lb_guidance и ряд QR-кодов
 - `app/src/main/res/drawable-nodpi/qr_site.png`, `qr_telegram.png`: карточки QR (делает `tools/qr-cards.py`)
 - `app/src/main/res/raw/extra_roots.pem`: корни GlobalSign R46, R3, ISRG X1, X2
-- `app/src/main/res/values/`: строки, цвета (палитра логотипа, `colors.xml`), тема Leanback (кнопка-шар заголовка с шестерёнкой), `SettingsTheme` для настроек, тема плеера и диалога качества и чёрная тема плеера
+- `app/src/main/res/values/`: строки, цвета (палитра логотипа, `colors.xml`), тема Leanback (кнопка-шар заголовка с шестерёнкой), `SettingsTheme` для настроек, `ShowTheme` с переходами экрана передачи, тема плеера и диалога качества и чёрная тема плеера
 - `app/src/main/res/values/dimens.xml`: размеры фокуса: толщина и отступ рамки, скругления карточки и плашки, подъём
 - `app/src/main/res/drawable/focus_ring.xml`, `focus_ring_selector.xml`, `focus_plate_selector.xml`, `season_bg_selector.xml`, `season_bar_selector.xml`, `card_dim_selector.xml`, `logo_square.xml`, `gear_button.xml`, `bg_shade_side.xml`, `bg_shade_bottom.xml`, `duration_badge.xml`, `guided_selector.xml`: квадрат «Ю» и кнопка настроек в шапке, рамка фокуса вокруг картинки, светлая плашка в фокусе, плашка и черта выбранного сезона (селекторы по состоянию), затемнение фона главного экрана слева и снизу, плашка длительности на карточке серии, пункт настроек в фокусе
 - `app/src/main/res/color/text_focus_selector.xml`: цвет текста: тёмный в фокусе, светлый без фокуса
