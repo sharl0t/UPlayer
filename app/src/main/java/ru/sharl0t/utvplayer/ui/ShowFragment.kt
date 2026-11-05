@@ -37,7 +37,7 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
         val episodes = view.findViewById<HorizontalGridView>(R.id.episodes)
         var current = 0
         val episodeAdapter = EpisodeAdapter(
-            onFocus = { showEpisode(view, details.seasons[current].title, it) },
+            onFocus = { showEpisode(view, details.seasons[current].title, it, watchable = true) },
             onClick = { onPlay(details.seasons[current].title, it) },
         )
         episodes.adapter = episodeAdapter
@@ -46,15 +46,17 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
             current = index
             val season = details.seasons[index]
             episodeAdapter.submit(season.episodes)
-            season.episodes.firstOrNull()?.let { showEpisode(view, season.title, it) }
+            season.episodes.firstOrNull()?.let { showEpisode(view, season.title, it, watchable = false) }
         }
         seasons.adapter = SeasonAdapter(details, select)
         select(0)
         seasons.post { seasons.requestFocus() }
     }
 
-    private fun showEpisode(view: View, season: String, ep: Episode) {
-        view.findViewById<ImageView>(R.id.ep_image).load(ep.imageUrl)
+    // watchable: фокус на серии, подсказка «OK смотреть» уместна; на сезоне её прячем (OK там ничего не запускает)
+    private fun showEpisode(view: View, season: String, ep: Episode, watchable: Boolean) {
+        view.findViewById<ImageView>(R.id.ep_image).load(ep.imageUrl) { crossfade(150) }
+        view.findViewById<View>(R.id.ep_hint).visibility = if (watchable) View.VISIBLE else View.INVISIBLE
         view.findViewById<TextView>(R.id.ep_num).text = ep.number?.let { "$it серия" } ?: ep.title
         val who = if (ep.heroine != null) listOfNotNull(ep.heroine, ep.city).joinToString(", ") else ep.description
         view.findViewById<TextView>(R.id.ep_who).text = who.orEmpty()
