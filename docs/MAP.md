@@ -25,8 +25,8 @@
 - `app/src/main/res/layout/settings_guidance.xml`: левая часть настроек: lb_guidance и ряд QR-кодов
 - `app/src/main/res/drawable-nodpi/qr_site.png`, `qr_telegram.png`: карточки QR (делает `tools/qr-cards.py`)
 - `app/src/main/res/raw/extra_roots.pem`: корни GlobalSign R46, R3, ISRG X1, X2
-- `app/src/main/res/values/`: строки, цвета, тема Leanback (кнопка-шар заголовка с шестерёнкой) и чёрная тема плеера
-- `app/src/main/res/drawable*/`, `mipmap-*/`: баннер 320x180, иконка «Ю» (из `ICO.jpg`), шестерёнка `ic_quality` (качество и настройки)
+- `app/src/main/res/values/`: строки, цвета (палитра логотипа, `colors.xml`), тема Leanback (кнопка-шар заголовка с шестерёнкой) и чёрная тема плеера
+- `app/src/main/res/drawable*/`, `mipmap-*/`: баннер 320x180, иконка «Ю» (из `ICO.jpg`), шестерёнка `ic_quality` (качество и настройки, светлая на тёмном) и `ic_settings_dark` (тёмная для кнопки в шапке на светлой плашке)
 - `docs/logo.jpg`: логотип для README (уменьшенный `ICO.jpg`)
 - `app/src/test/java/ru/sharl0t/utvplayer/data/LiveSiteTest.kt`: проверка разбора на живом сайте (UTV_LIVE=1)
 - `tools/ping-stats.py`: сводка по ping.log статистики устройств; копия лежит на сервере regru в `/root/ping-stats.py`

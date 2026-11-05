@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Палитра из цветов логотипа, design/PLAN.md -->
 <resources>
-    <color name="brand">#261438</color>
-    <color name="accent">#FFC400</color>
+    <color name="brand">#2a2c31</color>
+    <color name="dark">#212327</color>
+    <color name="plate">#c6c7cb</color>
+    <color name="letter">#34363c</color>
+    <color name="focus">#e4e5e8</color>
+    <color name="text">#e2e3e6</color>
 </resources>
